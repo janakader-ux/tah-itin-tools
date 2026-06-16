@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ITIN Document Generator — Tax &amp; Accounting Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16323A;--paper:#FBFAF7;--panel:#F2EFE8;--line:#DCD8CF;--brass:#A9803F;
+    --brass-soft:#F3E7D2;--muted:#5C6A6D;--ok:#2F6B4F;--warn:#9A5A12;
+    --sans:'IBM Plex Sans',-apple-system,Segoe UI,Roboto,sans-serif;
+    --disp:'Space Grotesk',var(--sans);--mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 64px}
+  header{border-bottom:1px solid var(--line);padding-bottom:18px}
+  .brand{font-family:var(--disp);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass)}
+  h1{font-family:var(--disp);font-weight:600;font-size:26px;margin:4px 0 0;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:13px;margin-top:6px;max-width:60ch}
+  .grid{display:grid;grid-template-columns:380px 1fr;gap:26px;margin-top:24px}
+  @media(max-width:880px){.grid{grid-template-columns:1fr}}
+  .panel-title{font-family:var(--disp);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+  label.f{display:block;margin-bottom:14px}
+  label.f > span{display:block;font-size:12.5px;font-weight:500;margin-bottom:6px}
+  input,select{width:100%;font-family:var(--sans);font-size:14.5px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:9px;padding:10px 11px}
+  input:focus,select:focus{outline:2px solid var(--brass);outline-offset:1px;border-color:var(--brass)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .cond{display:none;border-left:3px solid var(--brass-soft);padding-left:12px;margin:2px 0 8px}
+  .cond.on{display:block}
+  .check{display:flex;align-items:center;gap:9px;font-size:13.5px;cursor:pointer;margin-bottom:6px}
+  .check input{width:17px;height:17px;accent-color:var(--ink);margin:0}
+  .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:0;flex-wrap:wrap}
+  .tab{font-family:var(--disp);font-size:13px;font-weight:500;padding:9px 14px;border:1px solid transparent;border-bottom:none;border-radius:8px 8px 0 0;color:var(--muted);cursor:pointer;background:none}
+  .tab.active{color:var(--ink);background:#fff;border-color:var(--line)}
+  .tab .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-left:6px;vertical-align:middle}
+  .dot.ok{background:var(--ok)}.dot.na{background:var(--line)}
+  .out{position:relative;background:#fff;border:1px solid var(--line);border-top:none;border-radius:0 0 12px 12px;padding:18px 20px;min-height:340px}
+  .copybtn{position:absolute;top:14px;right:14px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;background:var(--ink);color:#fff;border:0;border-radius:7px;padding:7px 13px;cursor:pointer;z-index:2}
+  .copybtn.done{background:var(--ok)}
+  pre{white-space:pre-wrap;font-family:var(--sans);font-size:13.5px;line-height:1.62;color:#23383d;margin:0;padding-right:60px}
+  .na-msg{color:var(--muted);font-size:14px;background:var(--panel);border-radius:8px;padding:14px 16px}
+  footer{margin-top:26px;border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">Tax &amp; Accounting Hub — IRS Certifying Acceptance Agent</div>
+    <h1>ITIN document generator</h1>
+    <p class="sub">Fill the intake once. Out comes the client email for that category, the engagement letter with the fee already in, and the supporting letter populated for the IRS — ready for your CAA review.</p>
+  </header>
+
+  <div class="grid">
+    <section aria-label="Intake">
+      <p class="panel-title">Client &amp; matter</p>
+      <label class="f"><span>Applicant name (as per passport)</span><input id="applicant" placeholder="e.g. Chantal Dubois"></label>
+      <div class="two">
+        <label class="f"><span>Client email</span><input id="email" placeholder="name@email.com"></label>
+        <label class="f"><span>Tax year</span><input id="taxyear" value="2025"></label>
+      </div>
+      <label class="f"><span>Jurisdiction / office</span><select id="office"></select></label>
+      <label class="f"><span>ITIN category</span><select id="category"></select></label>
+
+      <div class="cond" id="firptaFields">
+        <label class="f"><span>What is being sold?</span>
+          <select id="saletype">
+            <option value="home">US home / real property (FIRPTA)</option>
+            <option value="crypto">Cryptocurrency</option>
+            <option value="other">Other asset</option>
+          </select></label>
+        <label class="f"><span>Timing</span>
+          <select id="saletiming">
+            <option value="after">Applying after the sale (Route A — recommended)</option>
+            <option value="before">Applying before the sale (Route B — 120 days prior)</option>
+          </select></label>
+        <label class="check"><input type="checkbox" id="prep8288b"> We prepare Form 8288-B (+£200)</label>
+        <label class="f"><span>Property address</span><input id="propaddr" placeholder="123 Main St, Austin, TX"></label>
+      </div>
+
+      <p class="panel-title" style="margin-top:18px">Withholding agent <span style="text-transform:none;letter-spacing:0">(for the supporting letter)</span></p>
+      <label class="f"><span>Withholding agent / company</span><input id="agent" placeholder="e.g. Acme Holdings LLC"></label>
+      <div class="two">
+        <label class="f"><span>EIN</span><input id="ein" placeholder="XX-XXXXXXX"></label>
+        <label class="f"><span>Signer title</span><input id="title" placeholder="Managing Member"></label>
+      </div>
+      <label class="f"><span>Signer name</span><input id="signer" placeholder="Authorised officer"></label>
+    </section>
+
+    <section aria-label="Output">
+      <div class="tabs">
+        <button class="tab active" data-t="email">Client email</button>
+        <button class="tab" data-t="eng">Engagement letter</button>
+        <button class="tab" data-t="sup">Supporting letter <span class="dot na" id="supDot"></span></button>
+      </div>
+      <div class="out">
+        <button class="copybtn" id="copyBtn">Copy</button>
+        <pre id="view"></pre>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    Generated drafts for CAA review — not a filing and not legal advice. Supporting letters under Exceptions 1, 2 and 4 are issued by the withholding agent on their own letterhead and signature; this tool drafts the wording. Verify against the current Form W-7 instructions before submission.
+  </footer>
+</div>
+
+<script>
+const OFFICES = {
+  uk:{name:'UK office',sym:'£',flat:null}, singapore:{name:'Singapore office',sym:'S$',flat:750},
+  uae:{name:'UAE (Dubai) office',sym:'AED ',flat:2000}, qatar:{name:'Qatar office (via UK)',sym:'QAR ',flat:2000},
+  saudi:{name:'Saudi Arabia (via UK)',sym:'£',flat:435}, india:{name:'India office',sym:'₹',flat:null,courier:4950}
+};
+const UK_FEES = {spouse:395,renewal:395,llc:425,beneficiary:495,firpta:425,contract:550,other:425};
+const INDIA_FEES = {spouse:23000,renewal:23000,llc:25000,beneficiary:35000,firpta:35000,contract:23000,other:23000};
+const CATS = {
+  spouse:{label:'Spouse of US citizen',exc:null},
+  renewal:{label:'ITIN renewal',exc:null},
+  llc:{label:'US LLC / partnership member',exc:'1a'},
+  beneficiary:{label:'Beneficiary of US income (401k/IRA/pension)',exc:'1c'},
+  contract:{label:'US-based contract income',exc:'2'},
+  firpta:{label:'Sale of US property (FIRPTA)',exc:'4'},
+  other:{label:'Other / not sure yet',exc:null}
+};
+const PROCESS='https://itincaa.com/itin-application-process-via-acceptance-agent/';
+const SPOUSE_FAQ='https://itincaa.com/itin-for-foreign-spouse-of-american-citizens-common-faqs/';
+const FIRPTA_FAQ='https://itincaa.com/firpta-withholding-tax-on-sale-of-usa-property-common-faqs/';
+const SIGNOFF='Best regards,\nKader Ameen\nDirector — Tax & Accounting Hub / UStax4expats';
+
+const $=id=>document.getElementById(id);
+const opt=(v,t)=>{const o=document.createElement('option');o.value=v;o.textContent=t;return o;};
+Object.entries(OFFICES).forEach(([k,o])=>$('office').appendChild(opt(k,o.name)));
+Object.entries(CATS).forEach(([k,c])=>$('category').appendChild(opt(k,c.label)));
+
+function feePhrase(ok,ck){
+  const o=OFFICES[ok];
+  if(ok==='india'){const f=INDIA_FEES[ck];const t=f+o.courier;return '₹'+t.toLocaleString()+' (₹'+f.toLocaleString()+' + ₹'+o.courier.toLocaleString()+' courier)';}
+  if(o.flat!=null) return o.sym+o.flat.toLocaleString()+' (all-inclusive, no VAT)';
+  return '£'+UK_FEES[ck]+' (all-inclusive, no VAT)';
+}
+const val=id=>($(id).value||'').trim();
+const fb=(id,fallback)=>val(id)||fallback;
+const today=()=>new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+/* ---------- CLIENT EMAIL ---------- */
+function emailText(){
+  const ok=$('office').value, ck=$('category').value;
+  const name=fb('applicant','[client name]'), ty=fb('taxyear','2025'), fee=feePhrase(ok,ck);
+  if(ck==='spouse') return spouseEmail(name,ty,fee);
+  if(ck==='firpta') return firptaEmail(name,fee);
+  if(ck==='renewal') return renewalEmail(name,ty,fee);
+  return standardEmail(name,fee,CATS[ck].label);
+}
+function spouseEmail(name,ty,fee){
+return `Dear ${name},
+
+Thank you for your message via our website.
+
+My name is Kader Ameen, Director of TAH and UStax4expats. I handle queries for the UK and Belgium offices, coordinating completion by video and phone call as needed.
+
+We can certainly assist with the ITIN service for the spouse of a US citizen/resident.
+
+The first step is to have your ${ty} Form 1040 federal tax return with Married Filing Jointly (MFJ) status ready. We can begin the ITIN application only once the ${ty} 1040 (MFJ) is ready, because the 1040 with MFJ status must be enclosed — this is mandatory. The ITIN and the tax return are processed together, so the ${ty} 1040 cannot be e-filed.
+
+Our fee for this ITIN service is ${fee}. Our process is outlined here:
+${PROCESS}
+
+Common FAQs for the foreign spouse of a US citizen:
+${SPOUSE_FAQ}
+
+Once your ${ty} 1040 (MFJ) is ready, contact us and we will take it from there.
+
+${SIGNOFF}`;
+}
+function firptaEmail(name,fee){
+  const st=$('saletype').value;
+  if(st!=='home'){
+    const asset = st==='crypto'?'cryptocurrency':'other asset';
+    return `Dear ${name},
+
+Thank you for your message via our website.
+
+You mentioned a sale of ${asset}. Please note FIRPTA withholding and Form 8288 apply to the disposition of US real property; a ${asset} disposition is treated differently and may not fall under FIRPTA. I suggest a short call so we can confirm the correct treatment and the fee.
+
+If an ITIN is required, our ITIN-only service is ${fee}. Our process is outlined here:
+${PROCESS}
+
+${SIGNOFF}`;
+  }
+  const timing=$('saletiming').value;
+  const route = timing==='after'
+? `Route A — applying after the sale (recommended):
+  a) Closing statement / HUD-1 settlement statement / buyer's agreement; and
+  b) Completed Form 8288 and Form 8288-A from the escrow withholding agent or buyer of the property.`
+: `Route B — applying before the sale (only within 120 days of closing):
+  Please submit at least four months before closing, as ITIN processing takes about 90 days. If the sale is within three months this route is not recommended; we can provide a copy of the in-progress application to the escrow agent as proof.
+  a) Closing statement / contract / buyer's agreement; and
+  b) Completed Form 8288-B, signed by the seller of the property.${$('prep8288b').checked?' If our team prepares Form 8288-B, an additional fee of £200 applies.':''}`;
+return `Dear ${name},
+
+Thank you for your message via our website.
+
+I am pleased to confirm that we can assist with the ITIN application and passport verification for FIRPTA tax. Please find our service options, fees and required documents below.
+
+SERVICE OPTIONS & FEES
+Option 1 — ITIN service only: £425 per application (all-inclusive, no VAT). This covers the full ITIN application process: ${PROCESS}
+Option 2 — ITIN + 1040NR US tax return (package): £995 per application (all-inclusive, no VAT). Includes both the ITIN application and the 1040NR. Note: if your net capital gains are under $40,000 you may be eligible to claim a full refund of the tax withheld on Form 8288-A.
+
+SUPPORTING DOCUMENTS — all FIRPTA applications fall under Exception 4 (disposition by a foreign person of a US real property interest). Without these the IRS will reject the application.
+${route}
+
+For a full explanation of the FIRPTA ITIN process, see: ${FIRPTA_FAQ}
+
+PROCESSING TIMELINES
+ITIN: 6–9 weeks from submission. Refund claim: 3–9 months from ITIN approval.
+Our team takes full responsibility for securing ITIN approval on all work submitted through our office.
+
+Once you confirm which option you would like, I will prepare the engagement letter and the information needed to start.
+
+${SIGNOFF}`;
+}
+function renewalEmail(name,ty,fee){
+return `Dear ${name},
+
+Thank you for your message via our website.
+
+We can assist with your ITIN renewal. A renewal application must normally be filed with your US federal tax return (unless you qualify for an exception), so please have your ${ty} return ready, along with your previously assigned ITIN.
+
+Our fee for this service is ${fee}. Our process is outlined here:
+${PROCESS}
+
+Once you are ready, contact us and we will take it from there.
+
+${SIGNOFF}`;
+}
+function standardEmail(name,fee,label){
+return `Dear ${name},
+
+Thank you for your message via our website.
+
+We can assist with your ITIN application (${label.toLowerCase()}). Our fee for this service is ${fee}. Our process is outlined here:
+${PROCESS}
+
+To begin, please reply to confirm and we will issue your engagement letter and a secure upload link for the supporting documents.
+
+${SIGNOFF}`;
+}
+
+/* ---------- ENGAGEMENT LETTER ---------- */
+function engagementText(){
+  const ok=$('office').value, ck=$('category').value;
+  const name=fb('applicant','[client name]'), fee=feePhrase(ok,ck);
+return `${today()}
+
+Dear ${name},
+
+ITIN Form W-7 Application Service — Engagement Letter
+
+Thank you for choosing Tax & Accounting Hub ('we' or 'TAH') to perform Certified Acceptance Agent (CAA) services for your ITIN / Form W-7 application (category: ${CATS[ck].label}). This letter confirms our understanding of the terms, objectives and limitations of this engagement.
+
+SCOPE OF SERVICES
+We will prepare your Form W-7 with the supporting documentation prescribed by the IRS and complete the Certificate of Accuracy (Form W-7 COA) confirming verification of your foreign-national status identification documents and your eligibility for the ITIN. This does not include preparation of a 1040 / 1040NR federal tax return; if you require one, a separate fee applies based on complexity.
+
+FEES
+Our fixed fee for the Form W-7 preparation and original-document verification under this engagement is ${fee} per application. Where matters outside our control require substantial further work, we will agree any additional fee with you in advance. Invoices are payable on presentation.
+
+DATA PROTECTION (UK GDPR)
+We each act as an independent data controller and comply with the UK GDPR and the Data Protection Act 2018. We process your personal data to deliver the services, meet legal/regulatory obligations and for our legitimate interests, with appropriate safeguards against unauthorised access, loss or disclosure. Our data protection contact is Kader Ameen, kader@taxandaccountinghub.com; our full privacy notice is on our website.
+
+KEY TERMS
+- As a CAA we assist with the ITIN application only; we are not authorised to obtain an EIN, and our certification is not binding on the IRS.
+- We certify that we have reviewed evidence of your identity and foreign status and keep a record of it; you are responsible for providing authentic, complete and accurate evidence.
+- Your signature on Form W-7 authorises us to communicate with the IRS about the ITIN only.
+- Normal IRS processing is 6–8 weeks, up to ~10 in peak periods; we are not responsible for IRS delays.
+- This Agreement is governed by the laws of England and Wales; our liability is limited to the fees received for this engagement.
+
+If this correctly sets out your understanding, please sign below.
+
+Sincerely,
+
+_______________________________
+Kader Jawali Ameen, EA, CAA — for Tax and Accounting Hub Ltd
+
+Client signature: _______________________________   Date: ____________
+Name: ${name}     Email: ${fb('email','____________')}
+
+Tax and Accounting Hub Ltd · Company No. 08408126 · 1A Cam Road, London E15 2SY · +44 (0)208 221 1154 · info@taxandaccountinghub.com`;
+}
+
+/* ---------- SUPPORTING LETTER ---------- */
+function supportingText(){
+  const ck=$('category').value, exc=CATS[ck].exc;
+  if(!exc) return null;
+  const applicant=fb('applicant','[applicant name]'), agent=fb('agent','[withholding agent]'),
+    ein=fb('ein','XX-XXXXXXX'), ty=fb('taxyear','2025'), signer=fb('signer','[signer name]'),
+    title=fb('title','Managing Member / Authorised Officer'), d=today();
+  const head=`To:\nInternal Revenue Service\nITIN Operation — ITIN Policy Section\nAustin, TX, USA\n\n`;
+  const sign=`\n\nSincerely,\n\nFor and on behalf of ${agent}\n${signer}\nTitle: ${title}\nDate: ${d}\n\n${agent}, [full registered address], U.S.A.`;
+  let body='';
+  if(exc==='1a') body=`This is to certify that ${applicant} (name as per passport) is a partner/member of ${agent}, EIN ${ein}, a US partnership/LLC, and is the beneficiary of distributive partnership income to be received during the ${ty} tax year.\n\nWe are the withholding agent with an obligation under the Internal Revenue Code (including section 1446) to obtain an Individual Taxpayer Identification Number from the above-named applicant, who is subject to IRS information reporting and/or withholding of federal income tax. Being a foreign national, the applicant requires an ITIN before completing Form W-8BEN.\n\nWe therefore request the IRS to issue an ITIN for our reporting, withholding and distribution procedures.\n\n[Attach the partnership/LLC agreement page showing the partnership name, EIN and the applicant's name and signature — required by the IRS from 1 June 2026.]`;
+  if(exc==='1c') body=`This is to certify that ${applicant} (name as per passport) is the beneficiary of distribution income to be received during the ${ty} tax year.\n\nWe, ${agent}, EIN ${ein}, are the withholding agent / distributor with an obligation to obtain an Individual Taxpayer Identification Number from the above-named applicant, who is subject to IRS information reporting and/or withholding of federal income tax. Being a foreign national, the applicant requires an ITIN before completing Form W-8BEN.\n\nWe therefore request the IRS to issue an ITIN for our reporting, withholding and distribution procedures.`;
+  if(exc==='2') body=`This is to certify that ${applicant} (name as per passport) will receive US-source compensation/honoraria for services to be performed during the ${ty} tax year.\n\nWe, ${agent}, EIN ${ein}, as payer/withholding agent, have an obligation to obtain an Individual Taxpayer Identification Number from the above-named applicant, who is subject to IRS information reporting and/or withholding of federal income tax. Being a foreign national, the applicant requires an ITIN before completing Form W-8BEN.\n\nWe therefore request the IRS to issue an ITIN for our reporting and withholding procedures.`;
+  if(exc==='4'){
+    const addr=fb('propaddr','[property address]');
+    body=`This is to certify that ${applicant} (name as per passport), a foreign person, is a party to the disposition of a US real property interest located at ${addr}, with closing on or about [closing date], during the ${ty} tax year.\n\nFederal tax withholding under Internal Revenue Code section 1445 applies to this disposition. We, ${agent}, EIN ${ein}, as the withholding agent, have an obligation to report and withhold and require the applicant's Individual Taxpayer Identification Number to do so.\n\nWe therefore request the IRS to issue an ITIN for our reporting and withholding procedures in connection with this disposition.`;
+  }
+  return head+body+sign;
+}
+
+/* ---------- RENDER ---------- */
+let activeTab='email';
+function render(){
+  $('firptaFields').classList.toggle('on',$('category').value==='firpta');
+  const sup=supportingText();
+  $('supDot').className='dot '+(sup?'ok':'na');
+  let txt;
+  if(activeTab==='email') txt=emailText();
+  else if(activeTab==='eng') txt=engagementText();
+  else txt=sup;
+  const view=$('view');
+  if(activeTab==='sup' && !sup){
+    view.innerHTML='';
+    const m=document.createElement('div');m.className='na-msg';
+    m.textContent='No third-party supporting letter for this category — it is filed with the signed US tax return (the 1040 MFJ for a spouse, or the return being renewed). The engagement letter and client email tabs still apply.';
+    view.appendChild(m);
+  } else { view.textContent=txt; }
+}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active'); activeTab=b.dataset.t; render();
+}));
+['applicant','email','taxyear','office','category','saletype','saletiming','prep8288b','propaddr','agent','ein','title','signer']
+  .forEach(id=>$(id).addEventListener('input',render));
+['office','category','saletype','saletiming'].forEach(id=>$(id).addEventListener('change',render));
+
+$('copyBtn').addEventListener('click',async()=>{
+  const t=$('view').textContent; if(!t) return;
+  try{await navigator.clipboard.writeText(t);const b=$('copyBtn');b.textContent='Copied';b.classList.add('done');
+    setTimeout(()=>{b.textContent='Copy';b.classList.remove('done')},1600);}catch(e){}
+});
+render();
+</script>
+</body>
+</html>
