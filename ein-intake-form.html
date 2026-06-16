@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EIN Application Service | Tax &amp; Accounting Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16323A;--paper:#FBFAF7;--card:#FFFFFF;--panel:#F2EFE8;--line:#E2DED5;
+    --brass:#A9803F;--brass-soft:#F5EAD6;--muted:#5C6A6D;--ok:#2F6B4F;--warn:#7A3A1C;
+    --sans:'IBM Plex Sans',-apple-system,Segoe UI,Roboto,sans-serif;
+    --disp:'Space Grotesk',var(--sans);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:680px;margin:0 auto;padding:34px 20px 80px}
+  .brand{font-family:var(--disp);font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--brass)}
+  h1{font-family:var(--disp);font-weight:600;font-size:28px;line-height:1.2;margin:8px 0 0}
+  .lede{color:var(--muted);font-size:15px;margin-top:10px}
+  .trust-bar{display:flex;gap:20px;flex-wrap:wrap;margin:18px 0 4px}
+  .trust-item{display:flex;align-items:center;gap:7px;font-size:13.5px;color:var(--muted)}
+  .trust-item .icon{width:20px;height:20px;border-radius:50%;background:var(--ok);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;flex:none}
+  hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+  .st{font-family:var(--disp);font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+  .step{display:inline-block;background:var(--ink);color:#fff;font-family:var(--disp);font-size:11px;font-weight:600;border-radius:999px;padding:3px 10px;margin-bottom:10px;letter-spacing:.04em}
+  .f{margin-bottom:18px}
+  .f>label{display:block;font-size:14px;font-weight:600;margin-bottom:7px}
+  .req{color:var(--brass)}
+  .hint{font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.5}
+  input,select,textarea{width:100%;font-family:var(--sans);font-size:16px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 14px;-webkit-appearance:none}
+  textarea{min-height:88px;resize:vertical}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--brass);outline-offset:1px;border-color:var(--brass)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+  @media(max-width:500px){.two{grid-template-columns:1fr}}
+  .cond{display:none;padding-left:14px;border-left:3px solid var(--brass-soft);margin-bottom:8px}
+  .cond.on{display:block}
+  .banner{border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.55;margin-bottom:18px}
+  .banner.info{background:#EBF4FF;border:1px solid #B3D4F5;color:#1A3A5C}
+  .fee-card{border-radius:16px;overflow:hidden;margin:18px 0 24px}
+  .fee-head{background:var(--ink);color:#fff;padding:18px 20px}
+  .fee-head .lab{font-family:var(--disp);font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin-bottom:4px}
+  .fee-head .amt{font-family:var(--disp);font-weight:600;font-size:32px;line-height:1}
+  .fee-head .basis{font-size:13px;opacity:.75;margin-top:6px}
+  .fee-body{background:var(--panel);padding:14px 20px}
+  .fee-local{font-size:14px;color:var(--muted)}
+  .fee-local strong{color:var(--ink)}
+  .loading-fx{font-size:12px;color:var(--muted);font-style:italic}
+  .check-label{display:flex;align-items:flex-start;gap:9px;font-size:14px;margin-bottom:10px;cursor:pointer;line-height:1.45}
+  .check-label input{width:17px;height:17px;margin-top:2px;flex:none;accent-color:var(--ink)}
+  .btn{font-family:var(--disp);font-weight:600;font-size:16px;color:#fff;background:var(--brass);border:0;border-radius:12px;padding:16px 22px;cursor:pointer;width:100%;margin-top:6px}
+  .btn:hover{background:#8A6530}
+  .btn:disabled{opacity:.55;cursor:default}
+  .fine{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6}
+  .err{display:none;color:var(--warn);background:#FBEAE6;border-radius:10px;padding:11px 13px;font-size:13.5px;margin-top:12px}
+  .err.on{display:block}
+  .done{display:none;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:36px 26px;margin-top:10px;text-align:center}
+  .done.on{display:block}
+  .done .tick{width:50px;height:50px;border-radius:50%;background:var(--ok);color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 14px}
+  .done h2{font-family:var(--disp);font-size:22px;margin:0 0 8px}
+  .done p{color:var(--muted);font-size:15px;margin:6px 0}
+  .done .next{background:var(--panel);border-radius:12px;padding:16px 18px;margin-top:18px;text-align:left;font-size:14px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand">Tax &amp; Accounting Hub · IRS Registered</div>
+  <h1>EIN application — fully managed service</h1>
+  <p class="lede">We handle everything on your behalf — from preparing your SS-4 to securing your EIN from the IRS. Complete the form below and we will take it from there. No repeated calls or follow-ups needed.</p>
+
+  <div class="trust-bar">
+    <div class="trust-item"><div class="icon">✓</div>100% remote — no office visit required</div>
+    <div class="trust-item"><div class="icon">✓</div>Fixed fee, no hidden charges</div>
+    <div class="trust-item"><div class="icon">✓</div>US &amp; foreign entities welcome</div>
+    <div class="trust-item"><div class="icon">✓</div>IRS registered practitioners</div>
+  </div>
+
+  <div class="fee-card">
+    <div class="fee-head">
+      <div class="lab">Fixed service fee</div>
+      <div class="amt">£450</div>
+      <div class="basis">fully managed · all-inclusive · no VAT</div>
+    </div>
+    <div class="fee-body">
+      <div class="fee-local" id="feeLocal"><span class="loading-fx">Select your country below to see the approximate local equivalent…</span></div>
+    </div>
+  </div>
+
+  <form id="form" novalidate>
+    <input type="hidden" name="access_key" value="PASTE-YOUR-WEB3FORMS-ACCESS-KEY-HERE">
+    <input type="hidden" name="subject" value="New EIN application — Tax & Accounting Hub">
+    <input type="hidden" name="from_name" value="TAH EIN intake form">
+    <input type="hidden" name="route_to" id="route_to">
+    <input type="hidden" name="entity_summary" id="h_entity">
+    <input type="hidden" name="local_equivalent" id="h_local">
+    <input type="checkbox" name="botcheck" style="display:none">
+
+    <!-- STEP 1: CONTACT -->
+    <span class="step">Step 1 of 5</span>
+    <p class="st">Your contact details</p>
+    <div class="two">
+      <div class="f"><label>First name <span class="req">*</span></label><input name="first_name" id="fname" required></div>
+      <div class="f"><label>Last name <span class="req">*</span></label><input name="last_name" id="lname" required></div>
+    </div>
+    <div class="two">
+      <div class="f"><label>Email address <span class="req">*</span></label><input type="email" name="email" id="email" required></div>
+      <div class="f"><label>Phone / WhatsApp <span class="req">*</span></label><input name="phone" id="phone" required></div>
+    </div>
+    <div class="f">
+      <label>Country you are based in <span class="req">*</span></label>
+      <select name="country" id="country" required>
+        <option value="" disabled selected>Select…</option>
+        <optgroup label="Europe">
+          <option value="uk">United Kingdom</option>
+          <option value="belgium">Belgium</option>
+          <option value="france">France</option>
+          <option value="germany">Germany</option>
+          <option value="netherlands">Netherlands</option>
+          <option value="ireland">Ireland</option>
+          <option value="spain">Spain</option>
+          <option value="other_europe">Other European country</option>
+        </optgroup>
+        <optgroup label="Asia / Middle East">
+          <option value="india">India</option>
+          <option value="singapore">Singapore</option>
+          <option value="uae">United Arab Emirates</option>
+          <option value="qatar">Qatar</option>
+          <option value="saudi">Saudi Arabia</option>
+          <option value="other_asia">Other Asian country</option>
+        </optgroup>
+        <optgroup label="Americas / Other">
+          <option value="usa">United States</option>
+          <option value="canada">Canada</option>
+          <option value="australia">Australia</option>
+          <option value="other">Another country</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <hr>
+
+    <!-- STEP 2: ENTITY -->
+    <span class="step">Step 2 of 5</span>
+    <p class="st">About the entity</p>
+
+    <div class="f">
+      <label>Is this for a US entity or a foreign entity? <span class="req">*</span></label>
+      <select name="entity_origin" id="entity_origin" required>
+        <option value="" disabled selected>Select…</option>
+        <option value="us">US entity — formed / incorporated in the United States</option>
+        <option value="foreign">Foreign entity — formed outside the United States</option>
+      </select>
+    </div>
+
+    <div class="f">
+      <label>Entity type <span class="req">*</span></label>
+      <select name="entity_type" id="entity_type" required>
+        <option value="" disabled selected>Select…</option>
+        <optgroup label="US entities">
+          <option value="llc_single">LLC — single member</option>
+          <option value="llc_multi">LLC — multi-member / partnership</option>
+          <option value="corporation">Corporation (C-Corp or S-Corp)</option>
+          <option value="partnership">Partnership</option>
+          <option value="sole_proprietor">Sole proprietor / individual</option>
+          <option value="trust">Trust / estate</option>
+          <option value="nonprofit">Non-profit organisation</option>
+        </optgroup>
+        <optgroup label="Foreign entities">
+          <option value="foreign_corp">Foreign corporation</option>
+          <option value="foreign_llc">Foreign LLC / limited company</option>
+          <option value="foreign_partnership">Foreign partnership</option>
+          <option value="foreign_individual">Foreign individual (no entity)</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="f">
+      <label>Legal name of the entity (exactly as registered) <span class="req">*</span></label>
+      <input name="entity_name" id="entity_name" required placeholder="e.g. Acme Holdings LLC">
+    </div>
+
+    <div class="f">
+      <label>Trade name / DBA (if different)</label>
+      <input name="trade_name" placeholder="Leave blank if same as legal name">
+    </div>
+
+    <div class="f">
+      <label>Why do you need an EIN? <span class="req">*</span></label>
+      <select name="reason_ein" id="reason_ein" required>
+        <option value="" disabled selected>Select the primary reason…</option>
+        <option value="new_business">Starting / registering a new business</option>
+        <option value="banking">Opening a US bank account</option>
+        <option value="withholding">Withholding agent / ITIN / W-8BEN requirements</option>
+        <option value="tax_return">Filing a US tax return</option>
+        <option value="employees">Taking on employees / payroll</option>
+        <option value="trust_estate">Setting up a trust or estate</option>
+        <option value="other_reason">Other</option>
+      </select>
+    </div>
+
+    <!-- US ENTITY BRANCH -->
+    <div class="cond" id="c_us">
+      <p class="st" style="margin-top:6px">US entity information</p>
+
+      <div class="f">
+        <label>State of formation / incorporation <span class="req">*</span></label>
+        <input name="us_state" placeholder="e.g. Wyoming, Delaware, Florida">
+      </div>
+      <div class="f">
+        <label>Principal business address (US) <span class="req">*</span></label>
+        <textarea name="us_address" rows="2" placeholder="Street address, City, State, ZIP code"></textarea>
+      </div>
+      <div class="f">
+        <label>Date of formation / incorporation <span class="req">*</span></label>
+        <input type="date" name="formation_date">
+      </div>
+      <div class="f">
+        <label>Nature of business / principal activity <span class="req">*</span></label>
+        <input name="business_activity" placeholder="e.g. real estate investment, e-commerce, consulting">
+      </div>
+      <div class="f">
+        <label>Principal product or service <span class="req">*</span></label>
+        <input name="principal_product" placeholder="e.g. residential property rental, online retail">
+      </div>
+      <div class="f">
+        <label>Closing month of accounting / fiscal year</label>
+        <select name="fiscal_year_end">
+          <option value="december">December (calendar year)</option>
+          <option value="march">March</option><option value="april">April</option>
+          <option value="june">June</option><option value="september">September</option>
+          <option value="other_month">Other</option>
+        </select>
+      </div>
+      <div class="f">
+        <label>Do you expect to have US-based employees in the next 12 months?</label>
+        <select name="has_employees">
+          <option value="no">No</option>
+          <option value="yes_other">Yes — general employees</option>
+          <option value="yes_household">Yes — household employees</option>
+        </select>
+      </div>
+
+      <p class="st" style="margin-top:16px">Responsible party</p>
+      <div class="banner info">
+        The <strong>responsible party</strong> is the individual who controls and manages the entity. For a single-member LLC this is the owner. We need their legal name and US tax identification number (SSN, ITIN or EIN).
+      </div>
+      <div class="two">
+        <div class="f"><label>Full name <span class="req">*</span></label><input name="rp_name" placeholder="Legal name"></div>
+        <div class="f"><label>SSN / ITIN / EIN <span class="req">*</span></label><input name="rp_tin" placeholder="XXX-XX-XXXX"></div>
+      </div>
+      <div class="f">
+        <label>Title / role within the entity</label>
+        <input name="rp_title" placeholder="e.g. Managing Member, President, Trustee">
+      </div>
+
+      <p class="st" style="margin-top:16px">Supporting documents</p>
+      <p class="hint" style="margin-bottom:10px">Please confirm which of the following you have available. You will upload these after submission via our secure portal.</p>
+      <label class="check-label"><input type="checkbox" name="doc_cert_inc"> Certificate of Incorporation / Articles of Organization (state-filed)</label>
+      <label class="check-label"><input type="checkbox" name="doc_op_agree"> Operating Agreement (LLC) or Bylaws (Corporation)</label>
+      <label class="check-label"><input type="checkbox" name="doc_passport"> Passport copy of the responsible party</label>
+      <label class="check-label"><input type="checkbox" name="doc_address"> Proof of registered US address (registered agent letter or lease)</label>
+    </div>
+
+    <!-- FOREIGN ENTITY BRANCH -->
+    <div class="cond" id="c_foreign">
+      <p class="st" style="margin-top:6px">Foreign entity information</p>
+
+      <div class="f">
+        <label>Country of formation / incorporation <span class="req">*</span></label>
+        <input name="foreign_country" placeholder="e.g. United Kingdom, India, Singapore">
+      </div>
+      <div class="f">
+        <label>Full registered address of the foreign entity <span class="req">*</span></label>
+        <textarea name="foreign_address" rows="3" placeholder="Full street address, city, postcode / PIN, country"></textarea>
+      </div>
+      <div class="f">
+        <label>US mailing address (if any)</label>
+        <textarea name="us_mailing" rows="2" placeholder="Registered agent address in the US — leave blank if none"></textarea>
+      </div>
+      <div class="f">
+        <label>Date of formation / incorporation <span class="req">*</span></label>
+        <input type="date" name="foreign_formation_date">
+      </div>
+      <div class="f">
+        <label>Nature of business / principal activity <span class="req">*</span></label>
+        <input name="foreign_activity" placeholder="e.g. property investment, import/export, consulting">
+      </div>
+      <div class="f">
+        <label>Principal product or service <span class="req">*</span></label>
+        <input name="foreign_product" placeholder="e.g. software development, property rental">
+      </div>
+      <div class="f">
+        <label>Does the entity have any US-based operations or property?</label>
+        <select name="foreign_us_ops">
+          <option value="no">No US operations or property</option>
+          <option value="us_property">We own US real property</option>
+          <option value="us_bank">We are opening a US bank account</option>
+          <option value="us_employees">We have US-based employees</option>
+        </select>
+      </div>
+      <div class="f">
+        <label>Closing month of accounting / fiscal year</label>
+        <select name="foreign_fiscal_year">
+          <option value="december">December (calendar year)</option>
+          <option value="march">March</option><option value="april">April</option>
+          <option value="june">June</option><option value="september">September</option>
+          <option value="other_month">Other</option>
+        </select>
+      </div>
+
+      <p class="st" style="margin-top:16px">Responsible party</p>
+      <div class="banner info">
+        The <strong>responsible party</strong> is the individual who controls the entity. Please provide their details exactly as they appear on their passport.
+      </div>
+      <div class="two">
+        <div class="f"><label>Full legal name <span class="req">*</span></label><input name="foreign_rp_name" placeholder="As per passport"></div>
+        <div class="f"><label>US tax number (SSN / ITIN) if held</label><input name="foreign_rp_tin" placeholder="Leave blank if none"></div>
+      </div>
+      <div class="f">
+        <label>Title / role within the entity <span class="req">*</span></label>
+        <input name="foreign_rp_title" placeholder="e.g. Director, Managing Member, Owner">
+      </div>
+      <div class="f">
+        <label>Responsible party's address (if different from entity address)</label>
+        <textarea name="foreign_rp_address" rows="2" placeholder="Leave blank if same as entity address"></textarea>
+      </div>
+      <div class="f">
+        <label>Responsible party's date of birth</label>
+        <input type="date" name="foreign_rp_dob">
+      </div>
+
+      <p class="st" style="margin-top:16px">Supporting documents</p>
+      <p class="hint" style="margin-bottom:10px">Please confirm which documents you have available. You will upload these via our secure portal after submission.</p>
+      <label class="check-label"><input type="checkbox" name="fdoc_cert"> Certificate of Incorporation / company registration certificate</label>
+      <label class="check-label"><input type="checkbox" name="fdoc_op"> Operating Agreement, Articles or equivalent constitutional document</label>
+      <label class="check-label"><input type="checkbox" name="fdoc_passport"> Passport copy of the responsible party</label>
+      <label class="check-label"><input type="checkbox" name="fdoc_us_addr"> US registered agent letter or address proof (if applicable)</label>
+    </div>
+
+    <hr>
+
+    <!-- STEP 3: THIRD-PARTY AUTHORISATION -->
+    <span class="step">Step 3 of 5</span>
+    <p class="st">Authorisation</p>
+
+    <div class="f">
+      <label>Do you wish to authorise Tax &amp; Accounting Hub to act on your behalf for this EIN application? <span class="req">*</span></label>
+      <select name="third_party_auth" id="third_party_auth" required>
+        <option value="" disabled selected>Select…</option>
+        <option value="yes">Yes — I authorise TAH to act as my representative for this application</option>
+        <option value="no">No — please prepare the documents for me to submit myself</option>
+      </select>
+      <p class="hint">Authorising us means we manage the entire process on your behalf. You simply sign the application form we prepare — we handle everything else.</p>
+    </div>
+
+    <hr>
+
+    <!-- STEP 4: HOW FOUND -->
+    <span class="step">Step 4 of 5</span>
+    <p class="st">How did you find us?</p>
+
+    <div class="f">
+      <label>Where did you hear about us? <span class="req">*</span></label>
+      <select name="how_found" id="how_found" required>
+        <option value="" disabled selected>Select…</option>
+        <option value="google">Google search</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="referral_client">Referral — from an existing client</option>
+        <option value="referral_professional">Referral — from a professional (accountant / lawyer)</option>
+        <option value="facebook">Facebook / Instagram</option>
+        <option value="youtube">YouTube</option>
+        <option value="itincaa">Found itincaa.com first</option>
+        <option value="ustax4expats">Found ustax4expats.com first</option>
+        <option value="taxhub">Found taxandaccountinghub.com first</option>
+        <option value="other_platform">Another platform or website</option>
+      </select>
+    </div>
+    <div class="cond" id="c_referral">
+      <div class="f">
+        <label>Referrer name (optional — so we can thank them)</label>
+        <input name="referrer_name" placeholder="Name of the person or firm">
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- STEP 5: SUBMIT -->
+    <span class="step">Step 5 of 5</span>
+    <p class="st">Review &amp; submit</p>
+
+    <div class="f">
+      <label>Anything else we should know?</label>
+      <textarea name="message" placeholder="Any additional context, urgency, or special requirements — optional"></textarea>
+    </div>
+
+    <label class="check-label" style="margin-bottom:18px">
+      <input type="checkbox" id="accuracy_confirm" name="accuracy_confirm" required>
+      <span>I confirm the information provided is accurate to the best of my knowledge and I authorise Tax &amp; Accounting Hub to use these details to proceed with my EIN application. <span class="req">*</span></span>
+    </label>
+
+    <button class="btn" id="submitBtn" type="submit">Submit my EIN application →</button>
+    <div class="err" id="err"></div>
+    <p class="fine">Your information is handled in line with UK GDPR (Tax and Accounting Hub Ltd, Co. 08408126). We do not share your details with any third party other than the IRS as necessary to complete this application.</p>
+  </form>
+
+  <div class="done" id="done">
+    <div class="tick">✓</div>
+    <h2>Application received — thank you.</h2>
+    <p>We will review your details and be in touch shortly with your invoice and next steps.</p>
+    <div class="next">
+      <strong>What happens next:</strong><br>
+      1. You receive our invoice by email (£450).<br>
+      2. Pay by bank transfer or card.<br>
+      3. We take care of everything — you will receive your EIN by email once issued.<br><br>
+      Questions? Email <a href="mailto:info@taxandaccountinghub.com" style="color:var(--brass)">info@taxandaccountinghub.com</a>
+    </div>
+  </div>
+
+</div>
+<script>
+const CMAP={uk:'GBP',belgium:'EUR',france:'EUR',germany:'EUR',netherlands:'EUR',ireland:'EUR',spain:'EUR',other_europe:'EUR',india:'INR',singapore:'SGD',uae:'AED',qatar:'QAR',saudi:'SAR',usa:'USD',canada:'CAD',australia:'AUD',other_asia:'USD',other:'USD'};
+const SYM={GBP:'£',EUR:'€',INR:'₹',SGD:'S$',AED:'AED ',QAR:'QAR ',SAR:'SAR ',USD:'$',CAD:'CA$',AUD:'A$'};
+const ROUTES={uk:'UK — Kader Ameen <kader@taxandaccountinghub.com>',belgium:'UK — Kader Ameen <kader@taxandaccountinghub.com>',india:'India — Naseem/Imtiaz <naseem@taxandaccountinghub.com>',singapore:'Singapore — Asif <asif@taxandaccountinghub.com>',uae:'UAE — Rizwan <rizwan@taxandaccountinghub.com>',qatar:'Qatar via UK — Kader <kader@taxandaccountinghub.com>',saudi:'Saudi via UK — Kader <kader@taxandaccountinghub.com>'};
+let rates={},fetched=false;
+async function fetchRates(){try{const r=await fetch('https://open.er-api.com/v6/latest/GBP');const j=await r.json();if(j.result==='success'){rates=j.rates;fetched=true;}}catch(e){}}
+fetchRates();
+const $=id=>document.getElementById(id);
+const show=(id,on)=>$(id).classList.toggle('on',on);
+async function refresh(){
+  const origin=$('entity_origin').value,hf=$('how_found').value,country=$('country').value;
+  show('c_us',origin==='us');
+  show('c_foreign',origin==='foreign');
+  show('c_referral',['referral_client','referral_professional'].includes(hf));
+  if(country){
+    const cur=CMAP[country]||'USD';
+    if(!fetched){$('feeLocal').innerHTML='<span class="loading-fx">Fetching live rate…</span>';await fetchRates();}
+    if(cur==='GBP'){$('feeLocal').textContent='You will be invoiced in GBP — no currency conversion needed.';}
+    else{const rate=rates[cur];const local=rate?((SYM[cur]||cur+' ')+Math.round(450*rate).toLocaleString()):null;
+      $('feeLocal').innerHTML=local?'Approximately <strong>'+local+'</strong> at today\'s live rate · invoiced in GBP (£450)':'<span class="loading-fx">Live rate unavailable — fee is £450 GBP</span>';}
+    $('h_local').value=$('feeLocal').textContent;
+  }
+  $('route_to').value=ROUTES[country]||ROUTES['uk'];
+  $('h_entity').value=($('entity_origin').value||'unknown')+' / '+($('entity_type').value||'type not selected');
+}
+['entity_origin','how_found','country','entity_type'].forEach(id=>$(id).addEventListener('change',refresh));
+$('form').addEventListener('submit',async e=>{
+  e.preventDefault();$('err').classList.remove('on');
+  const req=['fname','lname','email','phone','country','entity_origin','entity_type','entity_name','reason_ein','third_party_auth','how_found','accuracy_confirm'];
+  const missing=req.filter(id=>{const el=$(id);if(!el)return false;return el.type==='checkbox'?!el.checked:!el.value;});
+  if(missing.length){$('err').textContent='Please complete all required fields (marked *).';$('err').classList.add('on');$('err').scrollIntoView({behavior:'smooth',block:'nearest'});return;}
+  const btn=$('submitBtn');btn.disabled=true;btn.textContent='Submitting…';
+  try{const res=await fetch('https://api.web3forms.com/submit',{method:'POST',body:new FormData($('form'))});const out=await res.json();
+    if(out.success){$('form').style.display='none';$('done').classList.add('on');$('done').scrollIntoView({behavior:'smooth',block:'start'});}
+    else throw new Error(out.message);
+  }catch(err){btn.disabled=false;btn.textContent='Submit my EIN application →';$('err').textContent='Something went wrong. Please email info@taxandaccountinghub.com directly.';$('err').classList.add('on');}
+});
+refresh();
+</script>
+</body>
+</html>
