@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>US Personal Tax Return — Start Your Enquiry | UStax4expats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16323A;--paper:#FBFAF7;--card:#FFFFFF;--panel:#F2EFE8;--line:#E2DED5;
+    --brass:#A9803F;--brass-soft:#F5EAD6;--muted:#5C6A6D;--ok:#2F6B4F;--warn:#7A3A1C;
+    --sans:'IBM Plex Sans',-apple-system,Segoe UI,Roboto,sans-serif;
+    --disp:'Space Grotesk',var(--sans);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:660px;margin:0 auto;padding:34px 20px 70px}
+  .brand{font-family:var(--disp);font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--brass)}
+  h1{font-family:var(--disp);font-weight:600;font-size:30px;line-height:1.15;margin:8px 0 0;letter-spacing:-.015em}
+  .lede{color:var(--muted);font-size:15px;margin-top:10px;margin-bottom:6px}
+  .divider{border:none;border-top:1px solid var(--line);margin:22px 0}
+  .section-title{font-family:var(--disp);font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+  .f{margin-bottom:18px}
+  .f>label{display:block;font-size:14px;font-weight:600;margin-bottom:7px}
+  .req{color:var(--brass)}
+  .hint{font-size:12.5px;color:var(--muted);margin-top:5px}
+  input,select,textarea{width:100%;font-family:var(--sans);font-size:16px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 14px;-webkit-appearance:none}
+  textarea{min-height:90px;resize:vertical}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--brass);outline-offset:1px;border-color:var(--brass)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+  @media(max-width:500px){.two{grid-template-columns:1fr}}
+  .cond{display:none;padding-left:14px;border-left:3px solid var(--brass-soft);margin-bottom:18px}
+  .cond.on{display:block}
+
+  /* Fee card */
+  .fee-card{display:none;border-radius:16px;overflow:hidden;margin:8px 0 22px}
+  .fee-card.on{display:block}
+  .fee-head{background:var(--ink);color:#fff;padding:18px 20px}
+  .fee-head .lab{font-family:var(--disp);font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin-bottom:4px}
+  .fee-head .amt{font-family:var(--disp);font-weight:600;font-size:30px;line-height:1}
+  .fee-head .basis{font-size:13px;opacity:.75;margin-top:6px}
+  .fee-body{background:var(--panel);padding:14px 20px}
+  .fee-local{font-size:14px;color:var(--muted)}
+  .fee-local strong{color:var(--ink)}
+  .fee-note{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.5}
+  .fee-note a{color:var(--brass)}
+  .loading-fx{font-size:12px;color:var(--muted);font-style:italic}
+
+  /* Checklist */
+  .checklist{list-style:none;margin:0;padding:0}
+  .checklist li{display:flex;gap:10px;align-items:flex-start;font-size:14px;margin-bottom:9px}
+  .checklist li::before{content:"✓";color:var(--ok);font-weight:700;flex:none;margin-top:1px}
+
+  .btn{font-family:var(--disp);font-weight:600;font-size:16px;color:#fff;background:var(--ink);border:0;border-radius:12px;padding:15px 22px;cursor:pointer;width:100%;margin-top:6px}
+  .btn:hover{background:#0f262c}
+  .btn:disabled{opacity:.55;cursor:default}
+  .fine{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6}
+  .err{display:none;color:var(--warn);background:#FBEAE6;border-radius:10px;padding:11px 13px;font-size:13.5px;margin-top:12px}
+  .err.on{display:block}
+  .done{display:none;text-align:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:34px 26px;margin-top:10px}
+  .done.on{display:block}
+  .done .tick{width:48px;height:48px;border-radius:50%;background:var(--ok);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 14px}
+  .done h2{font-family:var(--disp);font-size:22px;margin:0 0 8px}
+  .done p{color:var(--muted);font-size:15px;margin:6px 0}
+  .done .summary{background:var(--panel);border-radius:12px;padding:16px;margin-top:16px;text-align:left;font-size:13.5px;white-space:pre-wrap;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">UStax4expats · Tax &amp; Accounting Hub</div>
+  <h1>US personal tax return — start your enquiry</h1>
+  <p class="lede">Tell us what you need and where you're based. You'll see an indicative fee and an approximate local currency equivalent straight away. No documents at this stage — we'll guide you through those after.</p>
+
+  <form id="form" novalidate>
+    <input type="hidden" name="access_key" value="PASTE-YOUR-WEB3FORMS-ACCESS-KEY-HERE">
+    <input type="hidden" name="subject" value="New US tax return enquiry — ustax4expats.com">
+    <input type="hidden" name="from_name" value="UStax4expats website">
+    <input type="hidden" name="route_to" id="route_to">
+    <input type="hidden" name="indicative_fee" id="h_fee">
+    <input type="hidden" name="local_equivalent" id="h_local">
+    <input type="hidden" name="how_found" id="h_source">
+    <input type="checkbox" name="botcheck" style="display:none">
+
+    <!-- PERSONAL DETAILS -->
+    <p class="section-title">Your details</p>
+    <div class="two">
+      <div class="f"><label>First name <span class="req">*</span></label><input name="first_name" id="fname" required></div>
+      <div class="f"><label>Last name <span class="req">*</span></label><input name="last_name" id="lname" required></div>
+    </div>
+    <div class="two">
+      <div class="f"><label>Email <span class="req">*</span></label><input type="email" name="email" id="email" required></div>
+      <div class="f"><label>Phone / WhatsApp</label><input name="phone" id="phone" placeholder="optional"></div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- LOCATION -->
+    <p class="section-title">Where are you based?</p>
+    <div class="f">
+      <label>Country <span class="req">*</span></label>
+      <select name="country" id="country" required>
+        <option value="" disabled selected>Select your country…</option>
+        <optgroup label="Europe">
+          <option value="uk">United Kingdom</option>
+          <option value="belgium">Belgium</option>
+          <option value="france">France</option>
+          <option value="germany">Germany</option>
+          <option value="netherlands">Netherlands</option>
+          <option value="ireland">Ireland</option>
+          <option value="spain">Spain</option>
+          <option value="italy">Italy</option>
+          <option value="other_europe">Other European country</option>
+        </optgroup>
+        <optgroup label="Asia / Middle East">
+          <option value="india">India</option>
+          <option value="singapore">Singapore</option>
+          <option value="uae">United Arab Emirates</option>
+          <option value="qatar">Qatar</option>
+          <option value="saudi">Saudi Arabia</option>
+          <option value="other_asia">Other Asian country</option>
+        </optgroup>
+        <optgroup label="Americas">
+          <option value="usa">United States</option>
+          <option value="canada">Canada</option>
+          <option value="other_americas">Other Americas</option>
+        </optgroup>
+        <optgroup label="Other">
+          <option value="australia">Australia</option>
+          <option value="other">Another country</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <hr class="divider">
+
+    <!-- SERVICE -->
+    <p class="section-title">What do you need?</p>
+    <div class="f">
+      <label>Service <span class="req">*</span></label>
+      <select name="service" id="service" required>
+        <option value="" disabled selected>Select a service…</option>
+        <optgroup label="US Tax Returns">
+          <option value="1040_basic">1040 federal return — employment income, 1099 &amp; FBAR (up to 5)</option>
+          <option value="1040_state">1040 + state tax return</option>
+          <option value="1040nr">1040NR — non-resident federal return</option>
+          <option value="1040nr_efile">1040NR with e-filing</option>
+        </optgroup>
+        <optgroup label="ITIN">
+          <option value="itin_spouse">ITIN — spouse of a US citizen</option>
+        </optgroup>
+        <optgroup label="Other">
+          <option value="streamline">Streamlined filing / FBAR compliance — contact us</option>
+          <option value="consultation">30-minute consultation (personal tax &amp; ITIN) — £150</option>
+          <option value="other">Other — tell us what you need</option>
+        </optgroup>
+      </select>
+      <p class="hint">Not sure? Pick the closest option and add a note at the bottom.</p>
+    </div>
+
+    <!-- CONDITIONAL: 1040 basic details -->
+    <div class="cond" id="c_1040">
+      <div class="f">
+        <label>How many FBAR accounts do you have?</label>
+        <select name="fbar_count" id="fbar_count">
+          <option value="0">None</option>
+          <option value="1_5">1–5 accounts (included in fee)</option>
+          <option value="6_plus">6 or more (additional fee may apply)</option>
+        </select>
+      </div>
+      <div class="f">
+        <label>Do you have any foreign income or pension?</label>
+        <select name="foreign_income" id="foreign_income">
+          <option value="no">No</option>
+          <option value="yes">Yes — please describe below</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- CONDITIONAL: state return -->
+    <div class="cond" id="c_state">
+      <div class="f">
+        <label>Which US state?</label>
+        <input name="us_state" id="us_state" placeholder="e.g. California, New York">
+      </div>
+    </div>
+
+    <!-- CONDITIONAL: 1040NR -->
+    <div class="cond" id="c_1040nr">
+      <div class="f">
+        <label>What is the source of your US income?</label>
+        <select name="nr_income_type" id="nr_income_type">
+          <option value="rental">US rental property income</option>
+          <option value="investment">Investment / dividend / interest income</option>
+          <option value="firpta">Sale of US property (FIRPTA)</option>
+          <option value="pension">US pension / 401k / IRA distribution</option>
+          <option value="contract">Contract / consulting fees</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- CONDITIONAL: ITIN spouse -->
+    <div class="cond" id="c_spouse">
+      <div class="f">
+        <label>Which tax year is the 1040 (MFJ) return for?</label>
+        <input name="tax_year" id="tax_year" value="2025">
+        <p class="hint">The 1040 with Married Filing Jointly status must be ready before we can begin the ITIN application.</p>
+      </div>
+    </div>
+
+    <!-- CONDITIONAL: other -->
+    <div class="cond" id="c_other">
+      <div class="f">
+        <label>Briefly describe what you need</label>
+        <textarea name="other_detail" id="other_detail"></textarea>
+      </div>
+    </div>
+
+    <!-- FEE CARD -->
+    <div class="fee-card" id="feeCard">
+      <div class="fee-head">
+        <div class="lab">Indicative fee</div>
+        <div class="amt" id="feeAmt">—</div>
+        <div class="basis" id="feeBasis"></div>
+      </div>
+      <div class="fee-body">
+        <div class="fee-local" id="feeLocal"></div>
+        <div class="fee-note" id="feeNote"></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- TAX YEAR -->
+    <div class="f">
+      <label>Which tax year(s) do you need? <span class="req">*</span></label>
+      <select name="tax_years_needed" id="tax_years_needed" required>
+        <option value="" disabled selected>Select…</option>
+        <option value="2025">2025 (current year)</option>
+        <option value="2024">2024</option>
+        <option value="2023">2023</option>
+        <option value="2022">2022 or earlier</option>
+        <option value="multiple">Multiple years</option>
+        <option value="unsure">Not sure yet</option>
+      </select>
+    </div>
+
+    <hr class="divider">
+
+    <!-- HOW DID THEY FIND US -->
+    <p class="section-title">How did you find us?</p>
+    <div class="f">
+      <label>Where did you hear about us? <span class="req">*</span></label>
+      <select name="how_found" id="how_found" required>
+        <option value="" disabled selected>Select…</option>
+        <option value="google">Google search</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="referral_client">Referral — from an existing client</option>
+        <option value="referral_professional">Referral — from a professional (accountant, lawyer, etc.)</option>
+        <option value="facebook">Facebook / Instagram</option>
+        <option value="youtube">YouTube</option>
+        <option value="itincaa">Found itincaa.com first</option>
+        <option value="taxhub">Found taxandaccountinghub.com first</option>
+        <option value="other_platform">Another platform or website</option>
+      </select>
+    </div>
+    <div class="cond" id="c_referral">
+      <div class="f">
+        <label>Referrer name (optional — so we can thank them)</label>
+        <input name="referrer_name" id="referrer_name" placeholder="Name of person or firm">
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ANYTHING ELSE -->
+    <div class="f">
+      <label>Anything else we should know?</label>
+      <textarea name="message" id="message" placeholder="e.g. I also have rental income from a US property, or I missed filing for 3 years — optional"></textarea>
+    </div>
+
+    <button class="btn" id="submitBtn" type="submit">Send my enquiry →</button>
+    <div class="err" id="err"></div>
+    <p class="fine">We process your details to respond to this enquiry only, in line with UK GDPR (Tax and Accounting Hub Ltd, Co. 08408126). We never ask for your passport or tax documents at this stage — those are collected later through our secure portal.</p>
+  </form>
+
+  <div class="done" id="done">
+    <div class="tick">✓</div>
+    <h2>Enquiry received — thank you.</h2>
+    <p>We'll come back to you by email, usually within one business day.</p>
+    <div class="summary" id="doneSummary"></div>
+  </div>
+</div>
+
+<script>
+/* ── FEE TABLE ─────────────────────────────────────────────────── */
+const FEES = {
+  '1040_basic':    { gbp:850,  label:'1040 federal return',        basis:'employment income, 1099 & FBAR up to 5 · all-inclusive, no VAT' },
+  '1040_state':    { gbp:1050, label:'1040 + state return',        basis:'indicative — state complexity may vary · all-inclusive, no VAT' },
+  '1040nr':        { gbp:525,  label:'1040NR federal return',       basis:'all-inclusive, no VAT' },
+  '1040nr_efile':  { gbp:545,  label:'1040NR with e-filing',        basis:'all-inclusive, no VAT' },
+  'itin_spouse':   { gbp:395,  label:'ITIN — spouse of US citizen', basis:'all-inclusive, no VAT' },
+  'consultation':  { gbp:150,  label:'30-min consultation',         basis:'personal US / UK tax & ITIN matters only · not US corporation tax' },
+  'streamline':    { gbp:null, label:'Streamlined filing',          basis:'fees depend on number of years and complexity — we\'ll quote after a short call' },
+  'other':         { gbp:null, label:'To be confirmed',             basis:'a member of our team will review and reply' }
+};
+
+/* Currency symbols and approximate exchange offsets for display only.
+   Live rates fetched from open.er-api.com — falls back to these if offline. */
+const CURRENCY_MAP = {
+  uk:'GBP', belgium:'EUR', france:'EUR', germany:'EUR', netherlands:'EUR',
+  ireland:'EUR', spain:'EUR', italy:'EUR', other_europe:'EUR',
+  india:'INR', singapore:'SGD', uae:'AED', qatar:'QAR', saudi:'SAR',
+  usa:'USD', canada:'CAD', australia:'AUD',
+  other_asia:'USD', other_americas:'USD', other:'USD'
+};
+const SYM = { GBP:'£', EUR:'€', INR:'₹', SGD:'S$', AED:'AED ', QAR:'QAR ', SAR:'SAR ', USD:'$', CAD:'CA$', AUD:'A$' };
+
+let rates = {};   // populated from live API
+let ratesFetched = false;
+
+async function fetchRates(){
+  try {
+    const r = await fetch('https://open.er-api.com/v6/latest/GBP');
+    const j = await r.json();
+    if(j.result==='success'){ rates = j.rates; ratesFetched = true; }
+  } catch(e){ /* silent — fallback shown */ }
+}
+fetchRates();
+
+function localAmount(gbp, currency){
+  if(!gbp) return null;
+  if(currency==='GBP') return null; // same currency — don't show twice
+  const rate = rates[currency];
+  if(!rate) return null;
+  const local = Math.round(gbp * rate);
+  const sym = SYM[currency] || currency+' ';
+  return sym + local.toLocaleString();
+}
+
+/* ── ROUTING ───────────────────────────────────────────────────── */
+const COUNTRY_ROUTE = {
+  uk:'UK office — Kader Ameen, EA, CAA <kader@taxandaccountinghub.com>',
+  belgium:'UK office — Kader Ameen, EA, CAA <kader@taxandaccountinghub.com>',
+  india:'India office — Naseem Ahamed / Imtiaz Ahamed <naseem@taxandaccountinghub.com>',
+  singapore:'Singapore office — Mohamed Asif <asif@taxandaccountinghub.com>',
+  uae:'UAE office — Rizwan Adil <rizwan@taxandaccountinghub.com>',
+  qatar:'Qatar (via UK) — Kader Ameen <kader@taxandaccountinghub.com>',
+  saudi:'Saudi Arabia (via UK) — Kader Ameen <kader@taxandaccountinghub.com>'
+};
+function routeFor(c){ return COUNTRY_ROUTE[c] || 'UK office — Kader Ameen, EA, CAA <kader@taxandaccountinghub.com>'; }
+
+/* ── SERVICE NOTES ─────────────────────────────────────────────── */
+const NOTES = {
+  '1040_basic':   'Includes federal return, FBAR (FinCEN 114) for up to 5 foreign accounts, and 1099 income. If you have 6+ FBAR accounts or foreign pension income, mention it below and we\'ll confirm any adjustment.',
+  '1040_state':   'State returns are quoted separately as complexity varies. The £1,050 is our typical combined indicative fee; we\'ll confirm the exact split for your state.',
+  '1040nr':       'For non-resident aliens with US-source income. We prepare the full 1040NR; if e-filing is needed, the fee is £545.',
+  '1040nr_efile': 'Includes e-filing. If you have a withholding certificate (8288-B) or FIRPTA, mention it below.',
+  'itin_spouse':  'Your 2025 Form 1040 (Married Filing Jointly) must be ready before we can begin — the return and the ITIN are submitted together and cannot be e-filed. Full FAQ: https://itincaa.com/itin-for-foreign-spouse-of-american-citizens-common-faqs/',
+  'consultation': 'Personal US / UK tax and ITIN advice only. We do not provide US corporation tax consulting. Reply with available times and we\'ll book the call.',
+  'streamline':   'Streamlined Domestic / Foreign Offshore procedures for late filers. Fee depends on number of years and complexity. Please give us a brief overview in the notes box below.',
+  'other':        'Please describe what you need in the notes box — a member of our team will come back to you.'
+};
+
+/* ── DOM HELPERS ───────────────────────────────────────────────── */
+const $ = id => document.getElementById(id);
+const show = (id,on) => $(id).classList.toggle('on', on);
+
+/* ── REACTIVE RENDER ───────────────────────────────────────────── */
+async function refresh(){
+  const svc = $('service').value;
+  const country = $('country').value;
+  const currency = CURRENCY_MAP[country] || 'USD';
+
+  // Conditional sections
+  show('c_1040',   ['1040_basic','1040_state'].includes(svc));
+  show('c_state',  svc==='1040_state');
+  show('c_1040nr', ['1040nr','1040nr_efile'].includes(svc));
+  show('c_spouse', svc==='itin_spouse');
+  show('c_other',  svc==='other');
+  const isRef = ['referral_client','referral_professional'].includes($('how_found').value);
+  show('c_referral', isRef);
+
+  if(!svc){ show('feeCard', false); return; }
+
+  const f = FEES[svc];
+  show('feeCard', true);
+  $('feeAmt').textContent  = f.gbp ? '£'+f.gbp.toLocaleString() : 'On enquiry';
+  $('feeBasis').textContent = f.basis;
+  $('feeNote').innerHTML   = (NOTES[svc]||'').replace(/(https?:\/\/\S+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');
+
+  // Live local currency
+  if(f.gbp && country){
+    if(!ratesFetched){
+      $('feeLocal').innerHTML = '<span class="loading-fx">Fetching live rate…</span>';
+      await fetchRates();
+    }
+    const local = localAmount(f.gbp, currency);
+    $('feeLocal').innerHTML = local
+      ? 'Approximately <strong>'+local+'</strong> at today\'s live rate · payable in GBP'
+      : (currency==='GBP' ? '' : '<span class="loading-fx">Live rate unavailable — fee is £'+f.gbp+' GBP</span>');
+  } else {
+    $('feeLocal').textContent = '';
+  }
+
+  // Hidden fields for email
+  $('h_fee').value   = f.gbp ? '£'+f.gbp : 'On enquiry';
+  $('h_local').value = ($('feeLocal').textContent||'').replace(/\s+/g,' ');
+  $('h_source').value = $('how_found').value;
+}
+
+['service','country','fbar_count','how_found'].forEach(id=>{
+  $(id).addEventListener('change', refresh);
+});
+$('tax_year').addEventListener('input', refresh);
+
+/* ── SUBMIT ────────────────────────────────────────────────────── */
+$('form').addEventListener('submit', async e => {
+  e.preventDefault();
+  $('err').classList.remove('on');
+
+  const fname = $('fname').value.trim(), lname = $('lname').value.trim();
+  const email = $('email').value.trim();
+  const country = $('country').value, svc = $('service').value;
+  const tyears = $('tax_years_needed').value, src = $('how_found').value;
+
+  if(!fname||!lname||!email||!country||!svc||!tyears||!src){
+    $('err').textContent = 'Please fill in all required fields (marked with *).';
+    $('err').classList.add('on');
+    $('err').scrollIntoView({behavior:'smooth',block:'nearest'});
+    return;
+  }
+
+  const f = FEES[svc];
+  $('route_to').value = routeFor(country);
+
+  const btn = $('submitBtn');
+  btn.disabled = true; btn.textContent = 'Sending…';
+
+  try {
+    const res = await fetch('https://api.web3forms.com/submit',{method:'POST',body:new FormData($('form'))});
+    const out = await res.json();
+    if(out.success){
+      $('form').style.display = 'none';
+      $('done').classList.add('on');
+      $('doneSummary').textContent = [
+        'Service: '+(f.label||svc),
+        'Indicative fee: '+(f.gbp?'£'+f.gbp:'On enquiry'),
+        ($('feeLocal').textContent ? 'Local equivalent: '+$('feeLocal').textContent.replace(/\s+/g,' ') : ''),
+        'Tax year(s): '+tyears,
+        'Country: '+country,
+        'How found: '+src,
+        '',
+        'We will reply to '+email+' within one business day.'
+      ].filter(Boolean).join('\n');
+    } else { throw new Error(out.message||'failed'); }
+  } catch(err){
+    btn.disabled = false; btn.textContent = 'Send my enquiry →';
+    $('err').textContent = 'Sorry, something went wrong. Please email us directly at info@taxandaccountinghub.com';
+    $('err').classList.add('on');
+  }
+});
+
+refresh();
+</script>
+</body>
+</html>
