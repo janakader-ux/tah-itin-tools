@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ITIN Quote &amp; Routing Console — Tax &amp; Accounting Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16323A; --paper:#FBFAF7; --panel:#F2EFE8; --line:#DCD8CF;
+    --brass:#A9803F; --brass-soft:#F3E7D2; --muted:#5C6A6D; --ok:#2F6B4F; --warn:#9A5A12;
+    --sans:'IBM Plex Sans',-apple-system,Segoe UI,Roboto,sans-serif;
+    --disp:'Space Grotesk',var(--sans);
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1060px;margin:0 auto;padding:28px 20px 64px}
+  header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;border-bottom:1px solid var(--line);padding-bottom:18px;flex-wrap:wrap}
+  .brand{font-family:var(--disp);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass)}
+  h1{font-family:var(--disp);font-weight:600;font-size:26px;margin:4px 0 0;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:13px;margin-top:6px;max-width:46ch}
+  .badge{font-family:var(--mono);font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 11px;white-space:nowrap}
+  .grid{display:grid;grid-template-columns:1fr 1.05fr;gap:24px;margin-top:26px}
+  @media(max-width:840px){.grid{grid-template-columns:1fr}}
+  .panel-title{font-family:var(--disp);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+  label.field{display:block;margin-bottom:18px}
+  .field > span{display:block;font-size:13px;font-weight:500;margin-bottom:7px}
+  select,.toggle-row{width:100%;font-family:var(--sans);font-size:15px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 13px}
+  select:focus{outline:2px solid var(--brass);outline-offset:1px;border-color:var(--brass)}
+  .hint{font-size:12px;color:var(--muted);margin-top:6px}
+  .toggle-row{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+  .toggle-row input{width:18px;height:18px;accent-color:var(--ink);margin:0}
+  .quote{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .quote-head{background:var(--ink);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .quote-head .role{font-family:var(--disp);font-size:12px;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+  .quote-head .office{font-size:15px;font-weight:500;margin-top:2px}
+  .stamp{text-align:right}
+  .fee{font-family:var(--mono);font-weight:500;font-size:30px;letter-spacing:-.01em;line-height:1}
+  .fee small{font-size:13px;opacity:.7;font-weight:400}
+  .feebasis{font-size:11px;opacity:.7;margin-top:5px;font-family:var(--mono)}
+  .qbody{padding:18px 20px}
+  .row{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--panel);font-size:14px}
+  .row:last-child{border-bottom:0}
+  .row .k{width:118px;flex:none;color:var(--muted);font-size:12px;padding-top:1px}
+  .row .v{flex:1}
+  .pill{display:inline-block;font-family:var(--mono);font-size:11px;border-radius:6px;padding:2px 7px;margin:2px 4px 2px 0}
+  .pill.code{background:var(--panel);color:var(--ink)}
+  .pill.confirm{background:#FBEFD8;color:var(--warn)}
+  .pill.letter{background:var(--brass-soft);color:var(--brass)}
+  .pill.ok{background:#E4F0E9;color:var(--ok)}
+  ul.docs{margin:6px 0 0;padding-left:18px}
+  ul.docs li{margin-bottom:5px;font-size:13.5px}
+  ul.docs li.cat{color:var(--ink);font-weight:500}
+  .note{background:#FBEFD8;border:1px solid #F0DBB0;color:var(--warn);font-size:12.5px;border-radius:8px;padding:9px 11px;margin-top:12px}
+  .summary{margin-top:24px}
+  .sumbox{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;font-size:14px;white-space:pre-wrap;font-family:var(--sans);color:#23383d}
+  .copybtn{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;background:var(--ink);color:#fff;border:0;border-radius:7px;padding:7px 12px;cursor:pointer}
+  .copybtn:active{transform:translateY(1px)}
+  .copybtn.done{background:var(--ok)}
+  footer{margin-top:30px;border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:12px;line-height:1.6}
+  code{font-family:var(--mono);font-size:12px;background:var(--panel);padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="brand">Tax &amp; Accounting Hub — IRS Certifying Acceptance Agent</div>
+      <h1>ITIN quote &amp; routing console</h1>
+      <p class="sub">Pick the jurisdiction and category. The fee, the office that handles it, the document pack and the client reply assemble instantly — no fee lookup, no forwarding email.</p>
+    </div>
+    <span class="badge">internal tool · v0.1 draft</span>
+  </header>
+
+  <div class="grid">
+    <section aria-label="Inputs">
+      <p class="panel-title">1 · Where is the client</p>
+      <label class="field">
+        <span>Jurisdiction / office</span>
+        <select id="office"></select>
+        <span class="hint" id="officeHint"></span>
+      </label>
+
+      <p class="panel-title">2 · What do they need</p>
+      <label class="field">
+        <span>ITIN category</span>
+        <select id="category"></select>
+        <span class="hint" id="catHint"></span>
+      </label>
+
+      <label class="field" style="margin-bottom:8px">
+        <span>Add a US tax return?</span>
+        <select id="taxreturn">
+          <option value="none">No — ITIN application only</option>
+          <option value="1040nr">1040NR (£525)</option>
+          <option value="1040nr_efile">1040NR with e-filing (£545)</option>
+          <option value="1040_standard">Standard 1040 — employment, 1099, up to 5 FBARs (£850)</option>
+          <option value="streamline">Streamlined / other — needs consultation</option>
+        </select>
+        <span class="hint">Tax-return work is handled by the UK office regardless of jurisdiction.</span>
+      </label>
+    </section>
+
+    <section aria-label="Quote">
+      <div class="quote">
+        <div class="quote-head">
+          <div>
+            <div class="role">Handled by</div>
+            <div class="office" id="qOffice">—</div>
+          </div>
+          <div class="stamp">
+            <div class="fee" id="qFee">—</div>
+            <div class="feebasis" id="qBasis"></div>
+          </div>
+        </div>
+        <div class="qbody">
+          <div class="row"><div class="k">Route to</div><div class="v" id="qRoute">—</div></div>
+          <div class="row"><div class="k">W-7 reason</div><div class="v" id="qReason">—</div></div>
+          <div class="row"><div class="k">Supporting letter</div><div class="v" id="qLetter">—</div></div>
+          <div class="row"><div class="k">Turnaround</div><div class="v" id="qTurn">We prepare within ~1 week of complete documents. IRS processing 6–8 weeks (up to 10 in peak season).</div></div>
+          <div class="row"><div class="k">Document pack</div><div class="v"><ul class="docs" id="qDocs"></ul></div></div>
+          <div id="qNote"></div>
+        </div>
+      </div>
+
+      <div class="summary">
+        <p class="panel-title">Client reply — ready to send</p>
+        <div class="sumbox"><button class="copybtn" id="copyBtn">Copy</button><span id="qSummary"></span></div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    Fees, contacts and document packs are stored as plain data at the top of this file — edit once and every quote updates. Amber <span class="pill confirm" style="margin:0">confirm</span> tags mark items you still need to confirm with me (missing fee or contact). This tool produces a quote and a draft reply only; it is not the IRS submission and does not replace your CAA review or the wet-signature step.
+  </footer>
+</div>
+
+<script>
+/* ----------------------------------------------------------------------
+   EDIT HERE. Everything the tool says comes from these three tables.
+---------------------------------------------------------------------- */
+const OFFICES = {
+  uk:        { name:'UK office',                 contact:'Kader Ameen, EA, CAA',            email:'kader@taxandaccountinghub.com', sym:'£',     flat:null, confirmEmail:false },
+  singapore: { name:'Singapore office',          contact:'Mohamed Asif',                    email:'asif@taxandaccountinghub.com',  sym:'S$',    flat:750,  confirmEmail:false },
+  uae:       { name:'UAE (Dubai) office',        contact:'Rizwan Adil',                     email:'rizwan@taxandaccountinghub.com',sym:'AED ',  flat:2000, confirmEmail:false },
+  qatar:     { name:'Qatar office (via UK)',     contact:'Kader Ameen (UK), EA, CAA',       email:'kader@taxandaccountinghub.com', sym:'QAR ',  flat:2000, confirmEmail:false },
+  saudi:     { name:'Saudi Arabia (via UK)',     contact:'Kader Ameen (UK), EA, CAA',       email:'kader@taxandaccountinghub.com', sym:'£',     flat:435,  confirmEmail:false },
+  india:     { name:'India office',              contact:'Naseem Ahamed / Imtiaz Ahamed',   email:'naseem@taxandaccountinghub.com',sym:'₹',     flat:null, confirmEmail:false, categoryPriced:true, courier:4950 }
+};
+
+/* UK and India are category-priced. Other offices use their flat fee. */
+const UK_FEES = {
+  spouse:'395', renewal:'395', llc:'425', beneficiary:'495', firpta:'425', contract:'550', other:'425'
+};
+/* India: in INR. Only the three categories you priced are set; others stay TBC. 4,950 INR FedEx courier is added to every India quote. */
+const INDIA_FEES = {
+  spouse:23000, llc:25000, beneficiary:35000, renewal:23000, firpta:35000, contract:23000, other:23000
+};
+
+const COMMON_DOCS = [
+  'Form W-7 data-gather sheet (Excel), or a completed Form W-7',
+  'Recent utility bill / address proof (full street address — PO box alone not accepted)',
+  'Clear photocopy of passport photo page, incl. the top page',
+  'Copy of US visa pages (skip if travelling visa-waiver)',
+  'Copy of the stamping page / last US entry',
+  'Prior ITIN rejection letter, if previously rejected'
+];
+
+const CATEGORIES = {
+  spouse:      { label:'Spouse of US citizen (filing tax return)', reason:'Box e — spouse of US citizen / resident alien',
+                 catDoc:'Signed Form 1040 (MFS/MFJ). If not ready, we issue a certified W-7 to file alongside the return when it is.',
+                 letter:null,
+                 note:'UAE clients: full street address required — IRS does not accept a PO box alone.' },
+  renewal:     { label:'ITIN renewal', reason:'Renewal — enter the existing ITIN on line 6f',
+                 catDoc:'Previously assigned ITIN and, if the legal name has changed, supporting evidence (marriage certificate / court order).',
+                 letter:null, note:'' },
+  llc:         { label:'US LLC partnership member', reason:'Box b / Exception 1(a) — partner in a US partnership or LLC',
+                 catDoc:'Withholding-agent letter from the LLC, plus the partnership/LLC agreement page showing the partnership name, EIN and the applicant’s name and signature.',
+                 letter:'Withholding-agent letter (LLC) to IRS ITIN Policy Section', note:'From 1 June 2026 the IRS requires the partnership/LLC agreement page for Exception 1(a) — build it into this pack.' },
+  beneficiary: { label:'Beneficiary of US income (401K / IRA / estate)', reason:'Exception 1(d) / box h — passive income, third-party withholding',
+                 catDoc:'Original letter from the pension / income distributor (Fidelity, Morgan Stanley, etc.) in the required wording.',
+                 letter:'Withholding-agent letter to IRS ITIN Policy Section', note:'If the distributor will not issue a letter, the W-8BEN request wording on their letterhead is accepted — use the sample format.' },
+  firpta:      { label:'Sale of US property (FIRPTA)', reason:'Exception 4 / box h — disposition of US real property',
+                 catDoc:'Closing / settlement statement, Forms 8288 & 8288-A (or 8288-B if a withholding certificate is sought), and the withholding agent’s details.',
+                 letter:'FIRPTA withholding-agent letter to IRS ITIN Policy Section', note:'Best practice: confirm the 15% withholding under IRC §1445 and attach the settlement statement; template included in the letter library.' },
+  contract:     { label:'US-based compensation (contract income)', reason:'Exception 2 — US-source compensation / services',
+                 catDoc:'Contract or engagement evidence and the payer’s withholding details.',
+                 letter:'Payer / withholding-agent letter to IRS ITIN Policy Section', note:'' },
+  consultation: { label:'Consultation — 30-min phone / video call', kind:'advisory', reason:'Advisory call — not an application',
+                 catDoc:null, letter:null,
+                 note:'Scope: personal US / UK tax and ITIN matters only. We do not provide US corporation tax consulting.' },
+  other:        { label:'Other / not listed', kind:'other', reason:'To be scoped by our team',
+                 catDoc:null, letter:null,
+                 note:'Tell us briefly what you need and a member of our team will get back to you.' }
+};
+
+const TAXRETURN = {
+  none:{label:null,fee:0}, '1040nr':{label:'1040NR',fee:525}, '1040nr_efile':{label:'1040NR (e-file)',fee:545},
+  '1040_standard':{label:'Standard 1040',fee:850}, streamline:{label:'Streamlined / other',fee:null}
+};
+/* -------------------------------------------------------------------- */
+
+const $ = id => document.getElementById(id);
+function opt(v,t){const o=document.createElement('option');o.value=v;o.textContent=t;return o;}
+
+Object.entries(OFFICES).forEach(([k,o])=>$('office').appendChild(opt(k,o.name)));
+Object.entries(CATEGORIES).forEach(([k,c])=>$('category').appendChild(opt(k,c.label)));
+
+function feeFor(officeKey, catKey){
+  if(catKey==='consultation') return {text:'£150', basis:'30-minute phone / video consultation'};
+  if(catKey==='other') return {text:'On enquiry', basis:'our team advises after a short brief'};
+  const o = OFFICES[officeKey];
+  if(officeKey==='india'){
+    const f = INDIA_FEES[catKey];
+    if(f==null) return {text:'fee TBC', basis:'India fee not set for this category', confirm:true};
+    const total = f + (o.courier||0);
+    return {text:'₹'+total.toLocaleString(), basis:'₹'+f.toLocaleString()+' + ₹'+o.courier.toLocaleString()+' FedEx courier'};
+  }
+  if(o.flat!=null) return {text:o.sym+o.flat.toLocaleString(), basis:'flat fee · all categories · no VAT'};
+  const f = UK_FEES[catKey];
+  return {text:'£'+f, basis:'per application · all-inclusive · no VAT'};
+}
+
+function render(){
+  const ok = $('office').value, ck = $('category').value, tr = $('taxreturn').value;
+  const o = OFFICES[ok], c = CATEGORIES[ck], t = TAXRETURN[tr];
+  const isApp = !c.kind;
+
+  $('qOffice').textContent = o.name;
+  const fee = feeFor(ok,ck);
+  $('qFee').innerHTML = fee.text + (isApp && t.fee ? ' <small>+ £'+t.fee+'</small>' : (isApp && tr==='streamline' ? ' <small>+ quote</small>' : ''));
+  $('qBasis').textContent = fee.basis + (isApp && t.label && t.fee ? '  ·  + '+t.label+' £'+t.fee : '');
+
+  const route = o.email
+    ? o.contact+' — <code>'+o.email+'</code>'+(o.confirmEmail?' <span class="pill confirm">confirm email</span>':'')
+    : o.contact+' <span class="pill confirm">add contact</span>';
+  $('qRoute').innerHTML = route;
+
+  $('qReason').innerHTML = '<span class="pill code">'+c.reason+'</span>';
+
+  if(isApp){
+    $('qLetter').innerHTML = c.letter
+      ? '<span class="pill letter">'+c.letter+'</span>'+(c.letter.includes('confirm')?'':' <span class="pill ok">template ready</span>')
+      : '<span class="pill ok">none required</span>';
+    $('qDocs').innerHTML = COMMON_DOCS.map(d=>'<li>'+d+'</li>').join('') + '<li class="cat">'+c.catDoc+'</li>';
+  } else {
+    $('qLetter').innerHTML = '<span class="pill ok">not applicable</span>';
+    $('qDocs').innerHTML = '<li class="cat">'+(ck==='consultation'?'No documents needed — we simply book the call.':'No documents yet — tell us what you need and we will advise.')+'</li>';
+  }
+
+  $('qNote').innerHTML = c.note ? '<div class="note">'+c.note+'</div>' : '';
+
+  $('qSummary').textContent = buildSummary(o,c,fee,t,tr,isApp,ck);
+}
+
+function buildSummary(o,c,fee,t,tr,isApp,ck){
+  const lines = [];
+  if(ck==='consultation'){
+    lines.push('Thank you for your enquiry.');
+    lines.push('');
+    lines.push('We offer a 30-minute phone or video consultation for £150. Please note we advise on personal US / UK tax and ITIN matters only — we do not provide US corporation tax consulting.');
+    lines.push('');
+    lines.push('Reply with a few times that suit you and we will book the call.');
+    return lines.join('\n');
+  }
+  if(ck==='other'){
+    lines.push('Thank you for your enquiry.');
+    lines.push('');
+    lines.push('So we can point you to the right specialist, please reply with a brief description of the service you are looking for, and a member of our team will get back to you.');
+    return lines.join('\n');
+  }
+  lines.push('Thank you for your enquiry regarding an ITIN application — '+c.label.toLowerCase()+'.');
+  lines.push('');
+  if(fee.confirm){
+    lines.push('Our fee for this service will be confirmed by our '+o.name+'.');
+  } else {
+    lines.push('Handled by our '+o.name+', our fixed fee for this Form W-7 / ITIN application is '+fee.text+' ('+fee.basis.replace(/ · /g,', ')+').');
+  }
+  if(t.label && t.fee) lines.push('If you also need the '+t.label+' prepared, that is an additional £'+t.fee+', handled by our UK office.');
+  if(tr==='streamline') lines.push('Streamlined / other filings are quoted after a short consultation.');
+  lines.push('');
+  if(c.letter && !c.letter.includes('confirm')) lines.push('This category requires a '+c.letter.toLowerCase()+'; we provide the template and wording.');
+  lines.push('To prepare your application we will need:');
+  COMMON_DOCS.forEach((d,i)=>lines.push('  '+(i+1)+'. '+d));
+  lines.push('  '+(COMMON_DOCS.length+1)+'. '+c.catDoc);
+  lines.push('');
+  lines.push('Timeline: we prepare within about one week of receiving complete documents; the IRS then takes 6–8 weeks (up to 10 in peak season).');
+  lines.push('If you are happy to proceed, reply to confirm and we will issue your engagement letter and secure upload link.');
+  return lines.join('\n');
+}
+
+$('office').addEventListener('change',()=>{ syncOfficeHint(); render(); });
+$('category').addEventListener('change',render);
+$('taxreturn').addEventListener('change',render);
+
+function syncOfficeHint(){
+  const o = OFFICES[$('office').value];
+  $('officeHint').textContent = $('office').value==='india' ? 'Priced by category (INR) + ₹4,950 FedEx courier.' : (o.flat!=null ? 'Flat fee across all categories.' : 'Priced by category below.');
+}
+
+$('copyBtn').addEventListener('click',async()=>{
+  try{ await navigator.clipboard.writeText($('qSummary').textContent);
+    const b=$('copyBtn'); b.textContent='Copied'; b.classList.add('done');
+    setTimeout(()=>{b.textContent='Copy';b.classList.remove('done')},1600);
+  }catch(e){ /* clipboard blocked in some embeds; text is selectable */ }
+});
+
+syncOfficeHint();
+render();
+</script>
+</body>
+</html>
