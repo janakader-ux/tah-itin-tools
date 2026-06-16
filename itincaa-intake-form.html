@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ITIN Application — Start Your Enquiry | ITIN CAA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16323A;--paper:#FBFAF7;--card:#FFFFFF;--panel:#F2EFE8;--line:#E2DED5;
+    --brass:#A9803F;--brass-soft:#F5EAD6;--muted:#5C6A6D;--ok:#2F6B4F;
+    --sans:'IBM Plex Sans',-apple-system,Segoe UI,Roboto,sans-serif;
+    --disp:'Space Grotesk',var(--sans);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:640px;margin:0 auto;padding:34px 20px 70px}
+  .brand{font-family:var(--disp);font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--brass)}
+  h1{font-family:var(--disp);font-weight:600;font-size:30px;line-height:1.15;margin:8px 0 0;letter-spacing:-.015em}
+  .lede{color:var(--muted);font-size:15px;margin-top:10px}
+  form{margin-top:26px}
+  .f{margin-bottom:20px}
+  .f > label{display:block;font-size:14px;font-weight:600;margin-bottom:7px}
+  .req{color:var(--brass)}
+  input,select,textarea{width:100%;font-family:var(--sans);font-size:16px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 14px}
+  textarea{min-height:96px;resize:vertical}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--brass);outline-offset:1px;border-color:var(--brass)}
+  .cond{display:none;border-left:3px solid var(--brass-soft);padding-left:14px;margin-bottom:20px}
+  .cond.on{display:block}
+  .quote{display:none;background:var(--ink);color:#fff;border-radius:14px;padding:18px 20px;margin:8px 0 22px}
+  .quote.on{display:block}
+  .quote .lab{font-family:var(--disp);font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.65}
+  .quote .fee{font-family:var(--disp);font-weight:600;font-size:26px;margin-top:3px}
+  .quote .note{font-size:13px;opacity:.85;margin-top:9px;line-height:1.5}
+  .quote a{color:#fff;text-decoration:underline}
+  .btn{font-family:var(--disp);font-weight:600;font-size:16px;color:#fff;background:var(--ink);border:0;border-radius:12px;padding:15px 22px;cursor:pointer;width:100%}
+  .btn:hover{background:#0f262c}
+  .btn:disabled{opacity:.6;cursor:default}
+  .fine{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6}
+  .done{display:none;text-align:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:34px 26px}
+  .done.on{display:block}
+  .done .tick{width:46px;height:46px;border-radius:50%;background:var(--ok);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 14px}
+  .done h2{font-family:var(--disp);font-size:22px;margin:0 0 8px}
+  .done p{color:var(--muted);font-size:15px;margin:6px 0}
+  .done .q{background:var(--panel);border-radius:12px;padding:16px;margin-top:16px;text-align:left;font-size:14px;white-space:pre-wrap}
+  .err{display:none;color:#9A2A1C;background:#FBEAE6;border-radius:10px;padding:11px 13px;font-size:13.5px;margin-top:12px}
+  .err.on{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">ITIN CAA · IRS Certifying Acceptance Agent</div>
+  <h1>Start your ITIN enquiry</h1>
+  <p class="lede">Tell us a little about what you need and where you're based. You'll see an indicative fee straight away, and we'll reply with your next steps. No documents needed yet — those come later through our secure portal.</p>
+
+  <form id="form" novalidate>
+    <!-- Web3Forms: paste your free access key from web3forms.com below -->
+    <input type="hidden" name="access_key" value="PASTE-YOUR-WEB3FORMS-ACCESS-KEY-HERE">
+    <input type="hidden" name="subject" value="New ITIN enquiry — itincaa.com">
+    <input type="hidden" name="from_name" value="ITIN CAA website">
+    <input type="hidden" name="route_to" id="route_to">
+    <input type="hidden" name="indicative_fee" id="indicative_fee">
+    <input type="hidden" name="suggested_reply" id="suggested_reply">
+    <input type="checkbox" name="botcheck" style="display:none">
+
+    <div class="f"><label>Full name <span class="req">*</span></label><input name="name" id="name" required></div>
+    <div class="f"><label>Email <span class="req">*</span></label><input type="email" name="email" id="email" required></div>
+    <div class="f"><label>Phone / WhatsApp</label><input name="phone" id="phone" placeholder="optional"></div>
+
+    <div class="f"><label>Which country are you based in? <span class="req">*</span></label>
+      <select name="country" id="country" required>
+        <option value="" selected disabled>Select…</option>
+        <option value="uk">United Kingdom</option>
+        <option value="belgium">Belgium</option>
+        <option value="india">India</option>
+        <option value="singapore">Singapore</option>
+        <option value="uae">United Arab Emirates</option>
+        <option value="qatar">Qatar</option>
+        <option value="saudi">Saudi Arabia</option>
+        <option value="usa">United States</option>
+        <option value="other">Another country</option>
+      </select></div>
+
+    <div class="f"><label>What do you need? <span class="req">*</span></label>
+      <select name="category" id="category" required>
+        <option value="" selected disabled>Select a service…</option>
+        <option value="spouse">ITIN — spouse of a US citizen</option>
+        <option value="renewal">ITIN — renewal</option>
+        <option value="llc">ITIN — US LLC / partnership member</option>
+        <option value="beneficiary">ITIN — beneficiary of US income (401k / IRA / pension)</option>
+        <option value="contract">ITIN — US-based compensation / contract income</option>
+        <option value="firpta">ITIN — sale of US property (FIRPTA)</option>
+        <option value="consultation">30-minute consultation (personal tax &amp; ITIN) — £150</option>
+        <option value="other">Other — tell us what you need</option>
+      </select></div>
+
+    <div class="cond" id="firptaC">
+      <div class="f"><label>What is being sold?</label>
+        <select name="sale_type" id="sale_type">
+          <option value="home">US home / real property</option>
+          <option value="crypto">Cryptocurrency</option>
+          <option value="other">Another asset</option>
+        </select></div>
+      <div class="f"><label>Timing</label>
+        <select name="sale_timing" id="sale_timing">
+          <option value="after">I am applying after the sale</option>
+          <option value="before">I am applying before the sale</option>
+        </select></div>
+    </div>
+
+    <div class="cond" id="spouseC">
+      <div class="f"><label>Which tax year is the 1040 return for?</label><input name="tax_year" id="tax_year" value="2025"></div>
+    </div>
+
+    <div class="cond" id="otherC">
+      <div class="f"><label>Briefly, what service are you looking for?</label><textarea name="other_detail" id="other_detail"></textarea></div>
+    </div>
+
+    <div class="quote" id="quote">
+      <div class="lab">Indicative fee</div>
+      <div class="fee" id="quoteFee">—</div>
+      <div class="note" id="quoteNote"></div>
+    </div>
+
+    <div class="f"><label>Anything else we should know?</label><textarea name="message" id="message" placeholder="optional"></textarea></div>
+
+    <button class="btn" id="submitBtn" type="submit">Send my enquiry</button>
+    <div class="err" id="err"></div>
+    <p class="fine">We use these details only to respond to your enquiry. We never ask for your passport or documents at this stage — those are collected later through our secure portal. Your information is handled in line with UK GDPR.</p>
+  </form>
+
+  <div class="done" id="done">
+    <div class="tick">✓</div>
+    <h2>Thank you — your enquiry is in.</h2>
+    <p id="doneMsg"></p>
+    <div class="q" id="doneQuote"></div>
+  </div>
+</div>
+
+<script>
+const OFFICES = {
+  uk:{name:'UK office',contact:'Kader Ameen, EA, CAA',email:'kader@taxandaccountinghub.com',sym:'£',flat:null},
+  india:{name:'India office',contact:'Naseem Ahamed / Imtiaz Ahamed',email:'naseem@taxandaccountinghub.com',sym:'₹',flat:null,courier:4950},
+  singapore:{name:'Singapore office',contact:'Mohamed Asif',email:'asif@taxandaccountinghub.com',sym:'S$',flat:750},
+  uae:{name:'UAE office',contact:'Rizwan Adil',email:'rizwan@taxandaccountinghub.com',sym:'AED ',flat:2000},
+  qatar:{name:'Qatar (via UK)',contact:'Kader Ameen (UK)',email:'kader@taxandaccountinghub.com',sym:'QAR ',flat:2000},
+  saudi:{name:'Saudi Arabia (via UK)',contact:'Kader Ameen (UK)',email:'kader@taxandaccountinghub.com',sym:'£',flat:435}
+};
+const COUNTRY_OFFICE = {uk:'uk',belgium:'uk',usa:'uk',other:'uk',india:'india',singapore:'singapore',uae:'uae',qatar:'qatar',saudi:'saudi'};
+const UK_FEES = {spouse:395,renewal:395,llc:425,beneficiary:495,contract:550,firpta:425,other:null};
+const INDIA_FEES = {spouse:23000,renewal:23000,llc:25000,beneficiary:35000,contract:23000,firpta:35000,other:null};
+const LABELS = {spouse:'spouse of a US citizen',renewal:'ITIN renewal',llc:'US LLC / partnership member',beneficiary:'beneficiary of US income',contract:'US-based compensation',firpta:'sale of US property (FIRPTA)',consultation:'30-minute consultation',other:'your enquiry'};
+const PROCESS='https://itincaa.com/itin-application-process-via-acceptance-agent/';
+const SPOUSE_FAQ='https://itincaa.com/itin-for-foreign-spouse-of-american-citizens-common-faqs/';
+const FIRPTA_FAQ='https://itincaa.com/firpta-withholding-tax-on-sale-of-usa-property-common-faqs/';
+
+const $=id=>document.getElementById(id);
+
+function officeKey(){ return COUNTRY_OFFICE[$('country').value] || 'uk'; }
+function feeData(){
+  const ck=$('category').value;
+  if(ck==='consultation') return {text:'£150',n:'a 30-minute phone or video consultation'};
+  if(ck==='other'||!ck) return {text:'On enquiry',n:null};
+  const ok=officeKey(), o=OFFICES[ok];
+  if(ok==='india'){const f=INDIA_FEES[ck];if(f==null) return {text:'On enquiry',n:null};return {text:'₹'+(f+o.courier).toLocaleString(),n:'₹'+f.toLocaleString()+' + ₹'+o.courier.toLocaleString()+' courier'};}
+  if(o.flat!=null) return {text:o.sym+o.flat.toLocaleString(),n:'all-inclusive, no VAT'};
+  const f=UK_FEES[ck]; return {text:'£'+f,n:'all-inclusive, no VAT'};
+}
+
+function clientNote(){
+  const ck=$('category').value;
+  if(ck==='spouse') return 'Your '+($('tax_year').value||'2025')+' Form 1040 (Married Filing Jointly) must be ready, as it is enclosed with the ITIN application — they are processed together. Spouse FAQs: '+SPOUSE_FAQ;
+  if(ck==='firpta'){
+    if($('sale_type').value!=='home') return 'A sale of this asset may not fall under FIRPTA — we will confirm the correct treatment on a short call.';
+    return 'FIRPTA falls under IRS Exception 4. Option 1 (ITIN only) £425; Option 2 (ITIN + 1040NR) £995. FAQs: '+FIRPTA_FAQ;
+  }
+  if(ck==='consultation') return 'We advise on personal US / UK tax and ITIN matters only — we do not provide US corporation tax consulting.';
+  if(ck==='other') return 'A member of our team will review your note and come back to you.';
+  return 'Our process: '+PROCESS;
+}
+
+function refresh(){
+  const ck=$('category').value;
+  $('firptaC').classList.toggle('on',ck==='firpta');
+  $('spouseC').classList.toggle('on',ck==='spouse');
+  $('otherC').classList.toggle('on',ck==='other');
+  const f=feeData();
+  if(ck){ $('quote').classList.add('on'); $('quoteFee').textContent=f.text;
+    $('quoteNote').innerHTML=(f.n?f.n+'. ':'')+clientNote().replace(/(https?:\/\/\S+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')
+      +'<br><span style="opacity:.7">Indicative — confirmed in your engagement letter.</span>';
+  } else { $('quote').classList.remove('on'); }
+}
+['country','category','sale_type','sale_timing','tax_year'].forEach(id=>{$(id).addEventListener('change',refresh);$(id).addEventListener('input',refresh);});
+
+function internalSummary(){
+  const ok=officeKey(), o=OFFICES[ok], f=feeData(), ck=$('category').value;
+  let s='ROUTE TO: '+o.name+' ('+o.contact+', '+o.email+')\n';
+  s+='SERVICE: '+(LABELS[ck]||ck)+'\nINDICATIVE FEE: '+f.text+(f.n?' ('+f.n+')':'')+'\n';
+  if(ck==='firpta') s+='SALE: '+$('sale_type').value+' / applying '+$('sale_timing').value+' sale\n';
+  if(ck==='spouse') s+='TAX YEAR: '+($('tax_year').value||'2025')+'\n';
+  if(ck==='other') s+='THEY NEED: '+($('other_detail').value||'(not specified)')+'\n';
+  return s;
+}
+
+$('form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  $('err').classList.remove('on');
+  if(!$('name').value||!$('email').value||!$('country').value||!$('category').value){
+    $('err').textContent='Please fill in your name, email, country and the service you need.';$('err').classList.add('on');return;
+  }
+  const f=feeData();
+  $('route_to').value=internalSummary();
+  $('indicative_fee').value=f.text;
+  $('suggested_reply').value=clientNote();
+  const btn=$('submitBtn');btn.disabled=true;btn.textContent='Sending…';
+  try{
+    const res=await fetch('https://api.web3forms.com/submit',{method:'POST',body:new FormData($('form'))});
+    const out=await res.json();
+    if(out.success){
+      $('form').style.display='none';
+      $('done').classList.add('on');
+      $('doneMsg').textContent='We\u2019ve received your enquiry for '+(LABELS[$('category').value]||'your request')+' and will reply by email shortly.';
+      $('doneQuote').textContent='Indicative fee: '+f.text+'\n\n'+clientNote();
+    } else { throw new Error(out.message||'send failed'); }
+  }catch(err){
+    btn.disabled=false;btn.textContent='Send my enquiry';
+    $('err').textContent='Sorry, something went wrong sending that. Please email us directly at info@taxandaccountinghub.com.';
+    $('err').classList.add('on');
+  }
+});
+refresh();
+</script>
+</body>
+</html>
