@@ -57,7 +57,7 @@
 
   <form id="form" novalidate>
     <!-- Web3Forms: paste your free access key from web3forms.com below -->
-    <input type="hidden" name="access_key" value="a0093dbe-f945-4952-afee-2f8f0dd3566a">
+    <input type="hidden" name="access_key" value="PASTE-YOUR-WEB3FORMS-ACCESS-KEY-HERE">
     <input type="hidden" name="subject" value="New ITIN enquiry — itincaa.com">
     <input type="hidden" name="from_name" value="ITIN CAA website">
     <input type="hidden" name="route_to" id="route_to">
@@ -192,11 +192,14 @@ function refresh(){
       +'<br><span style="opacity:.7">Indicative — confirmed in your engagement letter.</span>';
   } else { $('quote').classList.remove('on'); }
 }
-['country','category','sale_type','sale_timing','tax_year'].forEach(id=>{$(id).addEventListener('change',refresh);$(id).addEventListener('input',refresh);});
+['country','category','sale_type','sale_timing','tax_year','how_found'].forEach(id=>{$(id).addEventListener('change',refresh);$(id).addEventListener('input',refresh);});
 
 function internalSummary(){
+  const hfEl=document.getElementById('how_found');
+  const hfVal=hfEl?hfEl.options[hfEl.selectedIndex]?.text||hfEl.value:'';
   const ok=officeKey(), o=OFFICES[ok], f=feeData(), ck=$('category').value;
   let s='ROUTE TO: '+o.name+' ('+o.contact+', '+o.email+')\n';
+  s+='HOW FOUND: '+hfVal+'\n';
   s+='SERVICE: '+(LABELS[ck]||ck)+'\nINDICATIVE FEE: '+f.text+(f.n?' ('+f.n+')':'')+'\n';
   if(ck==='firpta') s+='SALE: '+$('sale_type').value+' / applying '+$('sale_timing').value+' sale\n';
   if(ck==='spouse') s+='TAX YEAR: '+($('tax_year').value||'2025')+'\n';
@@ -207,7 +210,8 @@ function internalSummary(){
 $('form').addEventListener('submit',async e=>{
   e.preventDefault();
   $('err').classList.remove('on');
-  if(!$('name').value||!$('email').value||!$('country').value||!$('category').value){
+  const hfVal=document.getElementById('how_found')?.value||'';
+  if(!$('name').value||!$('email').value||!$('country').value||!$('category').value||!hfVal){
     $('err').textContent='Please fill in your name, email, country and the service you need.';$('err').classList.add('on');return;
   }
   const f=feeData();
